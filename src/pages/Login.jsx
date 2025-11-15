@@ -1,9 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login({ onLogin }) {
+  const navigate = useNavigate();
+
   const handleGoogleLogin = () => {
-    // TODO: Implement Google OAuth logic here
-    alert('Google login clicked');
+    // Simulate successful login: call parent handler then navigate to admin
+    if (onLogin) onLogin();
+    navigate('/');
   };
 
   return (
