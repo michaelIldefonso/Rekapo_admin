@@ -3,7 +3,7 @@ import { users as initialUsers } from '../data/users';
 import { sessions as initialSessions } from '../data/sessions';
 import { systemStatistics as initialStats } from '../data/systemStatistics';
 import { AdminContext } from '../contexts/AdminContext';
-
+//THIS STORES DATA TEMPORARILY IN MEMORY FOR THE APP SESSION ONLY YIEA
 export function AdminProvider({ children }) {
   const [users, setUsers] = useState(initialUsers);
   const [sessions, setSessions] = useState(initialSessions);
