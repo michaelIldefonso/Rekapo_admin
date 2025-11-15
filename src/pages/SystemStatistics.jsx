@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAdmin } from '../components/AdminProvider';
+import { useAdmin } from '../hooks/useAdmin';
 
 export default function SystemStatistics() {
   const { queryStatistics } = useAdmin();

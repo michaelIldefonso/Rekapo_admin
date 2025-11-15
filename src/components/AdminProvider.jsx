@@ -1,14 +1,13 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { users as initialUsers } from '../data/users';
 import { sessions as initialSessions } from '../data/sessions';
 import { systemStatistics as initialStats } from '../data/systemStatistics';
-
-const AdminContext = createContext(null);
+import { AdminContext } from '../contexts/AdminContext';
 
 export function AdminProvider({ children }) {
   const [users, setUsers] = useState(initialUsers);
   const [sessions, setSessions] = useState(initialSessions);
-  const [statistics, setStatistics] = useState(initialStats);
+  const [statistics] = useState(initialStats);
 
   // Users API
   const queryUsers = (query) => {
@@ -55,8 +54,4 @@ export function AdminProvider({ children }) {
   );
 }
 
-export function useAdmin() {
-  const ctx = useContext(AdminContext);
-  if (!ctx) throw new Error('useAdmin must be used within AdminProvider');
-  return ctx;
-}
+// `useAdmin` moved to `src/hooks/useAdmin.js` to avoid fast-refresh warnings

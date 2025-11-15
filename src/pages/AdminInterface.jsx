@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAdmin } from '../components/AdminProvider';
+import { useAdmin } from '../hooks/useAdmin';
 
 export default function AdminInterface() {
   const { users, sessions, statistics } = useAdmin();
