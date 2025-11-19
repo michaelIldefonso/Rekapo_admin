@@ -3,16 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAdmin } from '../hooks/useAdmin';
 
 export default function AdminInterface() {
-  const { users, sessions, statistics } = useAdmin();
+  const { queryStatistics } = useAdmin();
   const navigate = useNavigate();
+  const stats = queryStatistics();
 
   const handleLogout = () => {
-    // Clear auth and redirect to login
     localStorage.removeItem('isAuthenticated');
-    // Replace history so back button doesn't return to admin
     window.history.replaceState({}, '', '/login');
     navigate('/login');
-    // reload to ensure App reads auth state
     setTimeout(() => window.location.reload(), 50);
   };
 
@@ -29,24 +27,14 @@ export default function AdminInterface() {
         <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
           <Link to="/users">User Management</Link>
           <Link to="/sessions">Session Management</Link>
-          <Link to="/statistics">System Statistics</Link>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-          <div style={{ padding: 12, border: '1px solid #eee', borderRadius: 6 }}>
-            <h3>Users</h3>
-            <div>Total users: {users.length}</div>
-          </div>
-
-          <div style={{ padding: 12, border: '1px solid #eee', borderRadius: 6 }}>
-            <h3>Sessions</h3>
-            <div>Active sessions: {sessions.length}</div>
-          </div>
-
-          <div style={{ padding: 12, border: '1px solid #eee', borderRadius: 6 }}>
-            <h3>Statistics</h3>
-            <div>Last report: {statistics.lastReport || 'N/A'}</div>
-          </div>
+        <div style={{ marginTop: 24 }}>
+          <h2>System Statistics</h2>
+          <div><strong>Total Users:</strong> {stats.totalUsers}</div>
+          <div><strong>Active Sessions:</strong> {stats.activeSessions}</div>
+          <div><strong>Last Login:</strong> {stats.lastLogin}</div>
+          <div><strong>System Load:</strong> {stats.systemLoad}</div>
         </div>
       </div>
     </div>

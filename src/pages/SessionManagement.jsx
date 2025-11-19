@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../hooks/useAdmin';
 
 export default function SessionManagement() {
   const { querySessions, deleteSession, getSessionMetadata } = useAdmin();
-  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [selectedSession, setSelectedSession] = useState(null);
   const [confirmMsg, setConfirmMsg] = useState('');
@@ -28,7 +26,6 @@ export default function SessionManagement() {
       <div style={{ background: '#fff', border: '1px solid #e0e0e0', maxWidth: 900, margin: '0 auto', borderRadius: 8, boxShadow: '0 2px 8px #0001', padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2 style={{ margin: 0 }}>Session Management</h2>
-          <button onClick={() => navigate('/')} style={{ padding: '6px 10px', borderRadius: 6, border: 'none', background: '#1976d2', color: '#fff', cursor: 'pointer' }}>Back to Admin</button>
         </div>
         <div style={{ marginBottom: 16 }}>
           <input

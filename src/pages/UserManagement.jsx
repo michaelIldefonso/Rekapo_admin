@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../hooks/useAdmin';
 
 export default function UserManagement() {
   const { queryUsers, toggleUserStatus } = useAdmin();
-  const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [, setRefreshKey] = useState(0);
 
   const users = queryUsers(query);
 
@@ -21,7 +19,6 @@ export default function UserManagement() {
       <div style={{ background: '#fff', border: '1px solid #e0e0e0', maxWidth: 700, margin: '0 auto', borderRadius: 8, boxShadow: '0 2px 8px #0001', padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2 style={{ margin: 0 }}>User Management</h2>
-          <button onClick={() => navigate('/')} style={{ padding: '6px 10px', borderRadius: 6, border: 'none', background: '#1976d2', color: '#fff', cursor: 'pointer' }}>Back to Admin</button>
         </div>
         <div style={{ marginBottom: 16 }}>
           <input
