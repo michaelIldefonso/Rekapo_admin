@@ -1,37 +1,95 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Box, Button, Card, CircularProgress, Typography, Alert } from '@mui/material';
+import useAuth from '../hooks/useAuth';
+import authService from '../services/authService';
 
-export default function Login({ onLogin }) {
+export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { isAuthenticated, loading: authLoading } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleGoogleLogin = () => {
-    // Simulate successful login: call parent handler then navigate to admin
-    if (onLogin) onLogin();
-    navigate('/');
+  // Check for error in URL params
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      setError(`Authentication failed: ${errorParam}`);
+    }
+  }, [searchParams]);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      navigate('/');
+    }
+  }, [isAuthenticated, loading, navigate]);
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { authorization_url } = await authService.initiateLogin();
+      window.location.href = authorization_url;
+    } catch (err) {
+      setError('Failed to initiate login. Please try again.');
+      setLoading(false);
+    }
   };
 
+  if (authLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
-    <div style={{ maxWidth: 320, margin: '100px auto', padding: 24, border: '1px solid #ccc', borderRadius: 8, textAlign: 'center' }}>
-      <h2>Login</h2>
-      <button
-        onClick={handleGoogleLogin}
-        style={{
-          width: '100%',
-          padding: 10,
-          background: '#fff',
-          border: '1px solid #ccc',
-          borderRadius: 4,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-          fontWeight: 500,
-          cursor: 'pointer',
-        }}
-      >
-        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style={{ width: 20, height: 20 }} />
-        Sign in with Google
-      </button>
-    </div>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: '#f5f5f5',
+      }}
+    >
+      <Card sx={{ padding: 4, maxWidth: 400, width: '100%' }}>
+        <Typography variant="h4" component="h1" sx={{ marginBottom: 2, textAlign: 'center' }}>
+          Admin Login
+        </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ marginBottom: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <Button
+          variant="contained"
+          fullWidth
+          size="large"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+          sx={{
+            backgroundColor: '#1f2937',
+            '&:hover': {
+              backgroundColor: '#111827',
+            },
+          }}
+        >
+          {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign in with Google'}
+        </Button>
+
+        <Typography
+          variant="body2"
+          sx={{ marginTop: 2, textAlign: 'center', color: '#666' }}
+        >
+          Only authorized admin users can access this system.
+        </Typography>
+      </Card>
+    </Box>
   );
 }
