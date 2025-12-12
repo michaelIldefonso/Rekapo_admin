@@ -1,17 +1,30 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAdmin } from '../hooks/useAdmin';
+import useAuth from '../hooks/useAuth';
 
 export default function AdminInterface() {
   const { queryStatistics } = useAdmin();
-  const navigate = useNavigate();
+  // use auth context to logout properly (clears tokens, server session)
+  const { logout } = useAuth();
   const stats = queryStatistics();
 
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    window.history.replaceState({}, '', '/login');
-    navigate('/login');
-    setTimeout(() => window.location.reload(), 50);
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch {
+      // ensure token is cleared even if API logout fails
+      console.warn('Logout API failed; clearing token locally');
+      try {
+        // fallback: clear token directly
+        localStorage.removeItem('adminToken');
+      } catch (ex) {
+        console.warn('Failed to clear token:', ex);
+      }
+    } finally {
+      // Force navigation to login so app re-evaluates auth state
+      window.location.assign('/login');
+    }
   };
 
   return (
