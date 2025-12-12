@@ -27,27 +27,68 @@ export default function AdminInterface() {
     }
   };
 
+  const headerStyles = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 16 };
+  const cardStyles = { background: '#fff', borderRadius: 10, padding: 20, boxShadow: '0 6px 18px rgba(15,23,42,0.06)' };
+  const gridStyles = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginTop: 16 };
+  const statNumber = { fontSize: 26, fontWeight: 700 };
+  const statLabel = { color: '#6b7280', marginTop: 6 };
+
   return (
-    <div style={{ minHeight: '100vh', padding: '2rem', background: '#f9f9f9' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: 900, margin: '0 auto 16px', gap: 12 }}>
-        <h1 style={{ margin: 0 }}>Admin Interface</h1>
-        <div>
-          <button onClick={handleLogout} style={{ padding: '8px 12px', borderRadius: 6, border: 'none', background: '#f44336', color: '#fff', cursor: 'pointer' }}>Logout</button>
-        </div>
-      </div>
+    <div style={{ minHeight: '100vh', padding: '24px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={headerStyles}>
+          <div>
+            <h1 style={{ margin: 0 }}>Admin Dashboard</h1>
+            <div style={{ color: '#6b7280', marginTop: 6 }}>Overview & quick actions</div>
+          </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e0e0e0', maxWidth: 900, margin: '0 auto', borderRadius: 8, padding: 24 }}>
-        <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
-          <Link to="/users">User Management</Link>
-          <Link to="/sessions">Session Management</Link>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Link to="/users">
+              <button style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff', cursor: 'pointer' }}>User Management</button>
+            </Link>
+
+            <Link to="/sessions">
+              <button style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff', cursor: 'pointer' }}>Session Management</button>
+            </Link>
+
+            <button onClick={handleLogout} style={{ padding: '8px 12px', borderRadius: 8, border: 'none', background: '#ef4444', color: '#fff', cursor: 'pointer' }}>Logout</button>
+          </div>
         </div>
 
-        <div style={{ marginTop: 24 }}>
-          <h2>System Statistics</h2>
-          <div><strong>Total Users:</strong> {stats.totalUsers}</div>
-          <div><strong>Active Sessions:</strong> {stats.activeSessions}</div>
-          <div><strong>Last Login:</strong> {stats.lastLogin}</div>
-          <div><strong>System Load:</strong> {stats.systemLoad}</div>
+        <div style={{ ...cardStyles }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <div>
+              <h2 style={{ margin: 0 }}>System Statistics</h2>
+              <div style={{ color: '#6b7280', marginTop: 6 }}>Latest snapshot</div>
+            </div>
+          </div>
+
+          <div style={gridStyles}>
+            <div style={{ padding: 14, borderRadius: 8, background: '#f8fafc' }}>
+              <div style={statNumber}>{stats.totalUsers}</div>
+              <div style={statLabel}>Total Users</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: '#f8fafc' }}>
+              <div style={statNumber}>{stats.activeSessions}</div>
+              <div style={statLabel}>Active Sessions</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: '#f8fafc' }}>
+              <div style={statNumber}>{stats.lastLogin}</div>
+              <div style={statLabel}>Last Login</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: '#f8fafc' }}>
+              <div style={statNumber}>{stats.systemLoad}</div>
+              <div style={statLabel}>System Load</div>
+            </div>
+          </div>
+
+          <div style={{ marginTop: 18 }}>
+            <h3 style={{ margin: '0 0 8px 0' }}>Notes</h3>
+            <p style={{ margin: 0, color: '#374151' }}>This is a local mock snapshot. Connect a backend to populate real-time statistics and activity logs.</p>
+          </div>
         </div>
       </div>
     </div>
