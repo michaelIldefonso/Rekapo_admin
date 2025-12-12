@@ -87,7 +87,7 @@ export default function AdminInterface() {
 
           <div style={{ marginTop: 18 }}>
             <h3 style={{ margin: '0 0 8px 0' }}>Notes</h3>
-            <p style={{ margin: 0, color: '#374151' }}>This is a local mock snapshot. Connect a backend to populate real-time statistics and activity logs.</p>
+            <p style={{ margin: 0, color: '#374151' }}>ey yo wassup micheal this is a local mock snapshot, connect a backend to populate real-time statistics and activity logs nigga.</p>
           </div>
         </div>
       </div>
