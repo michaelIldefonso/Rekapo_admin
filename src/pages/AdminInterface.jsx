@@ -368,16 +368,6 @@ export default function AdminInterface() {
           </div>
 
           <div style={{ marginTop: 18 }}>
-            <h3 style={{ 
-              margin: '0 0 8px 0', 
-              color: '#ffffff', 
-              textShadow: '0 2px 4px rgba(0,0,0,0.4)', 
-              fontFamily: 'Verdana, sans-serif' }}>Notes</h3>
-            <p style={{ 
-              margin: 0, 
-              color: '#e5e7eb', 
-              textShadow: '0 1px 2px rgba(0,0,0,0.3)', 
-              fontFamily: 'Verdana, sans-serif' }}>ey yo wassup micheal this is a local mock snapshot, connect a backend to populate real-time statistics and activity logs nigga.</p>
           </div>
         </div>
       </div>
