@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Card,
@@ -35,6 +35,8 @@ import {
   Refresh,
 } from '@mui/icons-material';
 import userService from '../services/userService';
+import backgroundImage from '../assets/images/poolrooms.jpg';
+import backgroundAudio from '../assets/audio/daisy bell.mp3';
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
@@ -47,6 +49,35 @@ export default function UserManagement() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const audioRef = useRef(null);
+  const [showClickPrompt] = useState(true);
+
+  // Auto-play background music
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3; // Set volume to 30%
+      audioRef.current.play().catch(err => {
+        console.log('Auto-play prevented:', err);
+      });
+    }
+
+    // Add click handler to play audio on first user interaction
+    const handleFirstClick = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(err => {
+          console.log('Audio play failed:', err);
+        });
+      }
+      // Remove listener after first click
+      document.removeEventListener('click', handleFirstClick);
+    };
+
+    document.addEventListener('click', handleFirstClick);
+
+    return () => {
+      document.removeEventListener('click', handleFirstClick);
+    };
+  }, []);
   
   // Dialog states
   const [disableDialog, setDisableDialog] = useState({ open: false, user: null, reason: '' });
@@ -129,8 +160,43 @@ export default function UserManagement() {
   const totalPages = Math.ceil(total / pageSize);
 
   return (
-    <Box sx={{ minHeight: '100vh', padding: 3, backgroundColor: '#f5f5f5' }}>
-      <Card sx={{ maxWidth: 1200, margin: '0 auto', padding: 3 }}>
+    <Box sx={{ 
+      minHeight: '100vh', 
+      padding: 3,
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      position: 'relative'
+    }}>
+      {/* Dark overlay for better readability */}
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        zIndex: 0
+      }}></Box>
+
+      {/* Background Audio */}
+      <audio ref={audioRef} loop autoPlay>
+        <source src={backgroundAudio} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <Card sx={{ 
+        maxWidth: 1200, 
+        margin: '0 auto', 
+        padding: 3,
+        position: 'relative',
+        zIndex: 1,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        boxShadow: '0 6px 18px rgba(15,23,42,0.06)'
+      }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
           <Typography variant="h4">User Management</Typography>
           <Button startIcon={<Refresh />} onClick={fetchUsers} disabled={loading}>
@@ -345,6 +411,48 @@ export default function UserManagement() {
           {error}
         </Alert>
       </Snackbar>
+
+      {/* Click Prompt at bottom */}
+      {showClickPrompt && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '30px 0',
+            position: 'relative',
+            zIndex: 1
+          }}
+        >
+          <Box
+            sx={{
+              padding: '10px 20px',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              borderRadius: '20px',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              animation: 'fadeInPulse 2s ease-in-out infinite',
+              '@keyframes fadeInPulse': {
+                '0%, 100%': { opacity: 0.6 },
+                '50%': { opacity: 0.9 },
+              },
+            }}
+          >
+            <Typography
+              sx={{
+                color: '#ffffff',
+                fontFamily: 'Verdana, sans-serif',
+                fontSize: '13px',
+                fontWeight: 400,
+                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+                letterSpacing: '0.3px',
+              }}
+            >
+              ✨ click anywhere to feel the liminality
+            </Typography>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }

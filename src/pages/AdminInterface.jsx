@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAdmin } from '../hooks/useAdmin';
 import useAuth from '../hooks/useAuth';
@@ -11,6 +11,7 @@ export default function AdminInterface() {
   const { logout } = useAuth();
   const stats = queryStatistics();
   const audioRef = useRef(null);
+  const [showClickPrompt, setShowClickPrompt] = useState(true);
 
   // Auto-play background music
   useEffect(() => {
@@ -88,8 +89,15 @@ export default function AdminInterface() {
     cursor: 'pointer',
     transition: 'all 0.3s ease'
   };
-  const statNumber = { fontSize: 26, fontWeight: 700, color: '#ffffffff', textShadow: '0 2px 4px rgba(0,0,0,0.5)', fontFamily: 'Verdana, sans-serif' };
-  const statLabel = { color: '#cacacaff', marginTop: 6, textShadow: '0 1px 3px rgba(0,0,0,0.4)', fontFamily: 'Verdana, sans-serif' };
+  const statNumber = { 
+    fontSize: 26, fontWeight: 700, 
+    color: '#ffffffff', 
+    textShadow: '0 2px 4px rgba(0,0,0,0.5)', 
+    fontFamily: 'Verdana, sans-serif' };
+  const statLabel = { 
+    color: '#cacacaff', marginTop: 6, 
+    textShadow: '0 1px 3px rgba(0,0,0,0.4)', 
+    fontFamily: 'Verdana, sans-serif' };
 
   return (
     <div style={{ 
@@ -118,11 +126,60 @@ export default function AdminInterface() {
         Your browser does not support the audio element.
       </audio>
 
+      {/* Click Prompt */}
+      {showClickPrompt && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 30,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 9999,
+            padding: '10px 20px',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            borderRadius: '20px',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            animation: 'fadeInPulse 2s ease-in-out infinite',
+          }}
+        >
+          <style>
+            {`
+              @keyframes fadeInPulse {
+                0%, 100% { opacity: 0.6; }
+                50% { opacity: 0.9; }
+              }
+            `}
+          </style>
+          <div
+            style={{
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              fontSize: '13px',
+              fontWeight: 400,
+              textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+              letterSpacing: '0.3px',
+            }}
+          >
+            ✨ click anywhere to feel the liminality ✨
+          </div>
+        </div>
+      )}
+
       <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div style={headerStyles}>
           <div>
-            <h1 style={{ margin: 0, color: '#ffffffff', textShadow: '0 2px 6px rgba(0,0,0,0.6)', fontFamily: 'Verdana, sans-serif' }}>Admin Dashboard</h1>
-            <div style={{ color: '#cacacaff', marginTop: 6, textShadow: '0 1px 3px rgba(0,0,0,0.4)', fontFamily: 'Verdana, sans-serif' }}>Overview & quick actions</div>
+            <h1 style={{ 
+              margin: 0, 
+              color: '#ffffffff', 
+              textShadow: '0 2px 6px rgba(0,0,0,0.6)', 
+              fontFamily: 'Verdana, sans-serif' }}>Admin Dashboard</h1>
+            <div style={{ 
+              color: '#cacacaff', 
+              marginTop: 6, 
+              textShadow: '0 1px 3px rgba(0,0,0,0.4)', 
+              fontFamily: 'Verdana, sans-serif' }}>Overview & quick actions</div>
           </div>
 
           <div style={{ display: 'flex', gap: 8 }}>
@@ -221,10 +278,22 @@ export default function AdminInterface() {
         </div>
 
         <div style={{ ...cardStyles }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', gap: 12, 
+            flexWrap: 'wrap' }}>
             <div>
-              <h2 style={{ margin: 0, color: '#ffffffff', textShadow: '0 2px 6px rgba(0,0,0,0.6)', fontFamily: 'Verdana, sans-serif' }}>System Statistics</h2>
-              <div style={{ color: '#cacacaff', marginTop: 6, textShadow: '0 1px 3px rgba(0,0,0,0.4)', fontFamily: 'Verdana, sans-serif' }}>Latest snapshot</div>
+              <h2 style={{ 
+                margin: 0, 
+                color: '#ffffffff', 
+                textShadow: '0 2px 6px rgba(0,0,0,0.6)', 
+                fontFamily: 'Verdana, sans-serif' }}>System Statistics</h2>
+              <div style={{ 
+                color: '#cacacaff', 
+                marginTop: 6, 
+                textShadow: '0 1px 3px rgba(0,0,0,0.4)', 
+                fontFamily: 'Verdana, sans-serif' }}>Latest snapshot</div>
             </div>
           </div>
 
@@ -299,8 +368,16 @@ export default function AdminInterface() {
           </div>
 
           <div style={{ marginTop: 18 }}>
-            <h3 style={{ margin: '0 0 8px 0', color: '#ffffff', textShadow: '0 2px 4px rgba(0,0,0,0.4)', fontFamily: 'Verdana, sans-serif' }}>Notes</h3>
-            <p style={{ margin: 0, color: '#e5e7eb', textShadow: '0 1px 2px rgba(0,0,0,0.3)', fontFamily: 'Verdana, sans-serif' }}>ey yo wassup micheal this is a local mock snapshot, connect a backend to populate real-time statistics and activity logs nigga.</p>
+            <h3 style={{ 
+              margin: '0 0 8px 0', 
+              color: '#ffffff', 
+              textShadow: '0 2px 4px rgba(0,0,0,0.4)', 
+              fontFamily: 'Verdana, sans-serif' }}>Notes</h3>
+            <p style={{ 
+              margin: 0, 
+              color: '#e5e7eb', 
+              textShadow: '0 1px 2px rgba(0,0,0,0.3)', 
+              fontFamily: 'Verdana, sans-serif' }}>ey yo wassup micheal this is a local mock snapshot, connect a backend to populate real-time statistics and activity logs nigga.</p>
           </div>
         </div>
       </div>
