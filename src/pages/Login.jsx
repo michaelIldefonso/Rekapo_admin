@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Card, CircularProgress, Typography, Alert } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 import authService from '../services/authService';
+import backgroundImage from '../assets/images/lvl0.jpg';
+import backgroundAudio from '../assets/audio/Fallen Down - Toby Fox.mp3';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -10,6 +12,34 @@ export default function Login() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const audioRef = useRef(null);
+
+  // Auto-play background music
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3; // Set volume to 30%
+      audioRef.current.play().catch(err => {
+        console.log('Auto-play prevented:', err);
+      });
+    }
+
+    // Add click handler to play audio on first user interaction
+    const handleFirstClick = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(err => {
+          console.log('Audio play failed:', err);
+        });
+      }
+      // Remove listener after first click
+      document.removeEventListener('click', handleFirstClick);
+    };
+
+    document.addEventListener('click', handleFirstClick);
+
+    return () => {
+      document.removeEventListener('click', handleFirstClick);
+    };
+  }, []);
 
   // Check for error in URL params
   useEffect(() => {
@@ -53,11 +83,41 @@ export default function Login() {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundColor: '#f5f5f5',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay for better readability
+        },
       }}
     >
-      <Card sx={{ padding: 4, maxWidth: 400, width: '100%' }}>
-        <Typography variant="h4" component="h1" sx={{ marginBottom: 2, textAlign: 'center' }}>
+      {/* Background Audio */}
+      <audio ref={audioRef} loop autoPlay>
+        <source src={backgroundAudio} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <Card sx={{ 
+        padding: 4, 
+        maxWidth: 400, 
+        width: '100%', 
+        position: 'relative', 
+        zIndex: 1,
+        boxShadow: 'none',
+        border: '1px solid rgba(0, 0, 0, 0.2)',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)'
+      }}>
+        <Typography variant="h4" component="h1" sx={{ marginBottom: 2, textAlign: 'center', color: '#ffffffff' }}>
           Admin Login
         </Typography>
 
@@ -74,7 +134,7 @@ export default function Login() {
           onClick={handleGoogleLogin}
           disabled={loading}
           sx={{
-            backgroundColor: '#1f2937',
+            backgroundColor: '#272b31ff',
             '&:hover': {
               backgroundColor: '#111827',
             },
@@ -85,7 +145,7 @@ export default function Login() {
 
         <Typography
           variant="body2"
-          sx={{ marginTop: 2, textAlign: 'center', color: '#666' }}
+          sx={{ marginTop: 2, textAlign: 'center', color: '#ffffffff' }}
         >
           Only authorized admin users can access this system.
         </Typography>
