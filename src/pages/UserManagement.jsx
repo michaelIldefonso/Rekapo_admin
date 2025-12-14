@@ -89,13 +89,21 @@ export default function UserManagement() {
     try {
       setLoading(true);
       setError(null);
-      const data = await userService.getUsers({
+      const params = {
         page,
         pageSize,
         search: search.trim(),
-        isAdmin: isAdminFilter === 'all' ? null : isAdminFilter === 'true',
-        isDisabled: isDisabledFilter === 'all' ? null : isDisabledFilter === 'true',
-      });
+      };
+      
+      if (isAdminFilter !== 'all') {
+        params.isAdmin = isAdminFilter === 'true';
+      }
+      
+      if (isDisabledFilter !== 'all') {
+        params.isDisabled = isDisabledFilter === 'true';
+      }
+      
+      const data = await userService.getUsers(params);
       setUsers(data.users);
       setTotal(data.total);
     } catch (err) {
@@ -198,8 +206,27 @@ export default function UserManagement() {
         boxShadow: '0 6px 18px rgba(15,23,42,0.06)'
       }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-          <Typography variant="h4">User Management</Typography>
-          <Button startIcon={<Refresh />} onClick={fetchUsers} disabled={loading}>
+          <Typography variant="h4" sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 2px 6px rgba(0,0,0,0.6)' }}>User Management</Typography>
+          <Button 
+            startIcon={<Refresh />} 
+            onClick={fetchUsers} 
+            disabled={loading}
+            sx={{
+              backgroundColor: 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+              }
+            }}
+          >
             Refresh
           </Button>
         </Box>
@@ -211,19 +238,113 @@ export default function UserManagement() {
             placeholder="Search by name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={{ flexGrow: 1, minWidth: 200 }}
+            sx={{ 
+              flexGrow: 1, 
+              minWidth: 200,
+              '& .MuiOutlinedInput-root': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                color: '#ffffff',
+                fontFamily: 'Verdana, sans-serif',
+                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                '&.Mui-focused fieldset': { borderColor: 'rgba(255, 255, 255, 0.7)' }
+              },
+              '& .MuiInputLabel-root': { color: '#cacacaff', fontFamily: 'Verdana, sans-serif' },
+              '& .MuiInputBase-input::placeholder': { color: '#999', opacity: 1 }
+            }}
           />
-          <FormControl sx={{ minWidth: 150 }}>
+          <FormControl sx={{ 
+            minWidth: 150,
+            '& .MuiOutlinedInput-root': {
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+              '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' }
+            },
+            '& .MuiInputLabel-root': { color: '#cacacaff', fontFamily: 'Verdana, sans-serif' },
+            '& .MuiSelect-icon': { color: '#ffffff' }
+          }}>
             <InputLabel>Admin Status</InputLabel>
-            <Select value={isAdminFilter} onChange={(e) => setIsAdminFilter(e.target.value)} label="Admin Status">
+            <Select 
+              value={isAdminFilter} 
+              onChange={(e) => setIsAdminFilter(e.target.value)} 
+              label="Admin Status"
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    '& .MuiMenuItem-root': {
+                      color: '#ffffff',
+                      fontFamily: 'Verdana, sans-serif',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.25)'
+                        }
+                      }
+                    }
+                  }
+                }
+              }}
+            >
               <MenuItem value="all">All</MenuItem>
               <MenuItem value="true">Admin</MenuItem>
-              <MenuItem value="false">Non-Admin</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ minWidth: 150 }}>
+          <FormControl sx={{ 
+            minWidth: 150,
+            '& .MuiOutlinedInput-root': {
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+              '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' }
+            },
+            '& .MuiInputLabel-root': { color: '#cacacaff', fontFamily: 'Verdana, sans-serif' },
+            '& .MuiSelect-icon': { color: '#ffffff' }
+          }}>
             <InputLabel>Account Status</InputLabel>
-            <Select value={isDisabledFilter} onChange={(e) => setIsDisabledFilter(e.target.value)} label="Account Status">
+            <Select 
+              value={isDisabledFilter} 
+              onChange={(e) => setIsDisabledFilter(e.target.value)} 
+              label="Account Status"
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    '& .MuiMenuItem-root': {
+                      color: '#ffffff',
+                      fontFamily: 'Verdana, sans-serif',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.25)'
+                        }
+                      }
+                    }
+                  }
+                }
+              }}
+            >
               <MenuItem value="all">All</MenuItem>
               <MenuItem value="false">Active</MenuItem>
               <MenuItem value="true">Disabled</MenuItem>
@@ -242,40 +363,40 @@ export default function UserManagement() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell align="center">Admin</TableCell>
-                    <TableCell align="center">Status</TableCell>
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', fontWeight: 700, textShadow: '0 2px 4px rgba(0,0,0,0.5)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>Name</TableCell>
+                    <TableCell sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', fontWeight: 700, textShadow: '0 2px 4px rgba(0,0,0,0.5)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>Email</TableCell>
+                    <TableCell align="center" sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', fontWeight: 700, textShadow: '0 2px 4px rgba(0,0,0,0.5)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>Users</TableCell>
+                    <TableCell align="center" sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', fontWeight: 700, textShadow: '0 2px 4px rgba(0,0,0,0.5)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>Status</TableCell>
+                    <TableCell align="center" sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', fontWeight: 700, textShadow: '0 2px 4px rgba(0,0,0,0.5)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {users.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} align="center" sx={{ padding: 4 }}>
+                      <TableCell colSpan={5} align="center" sx={{ padding: 4, color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.4)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                         No users found
                       </TableCell>
                     </TableRow>
                   ) : (
                     users.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell>{user.name || 'N/A'}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell align="center">
+                      <TableRow key={user.id} sx={{ '&:hover': { backgroundColor: 'rgba(255,255,255,0.05)' } }}>
+                        <TableCell sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.4)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>{user.name || 'N/A'}</TableCell>
+                        <TableCell sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.4)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>{user.email}</TableCell>
+                        <TableCell align="center" sx={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                           {user.is_admin ? (
-                            <Chip label="Admin" color="primary" size="small" />
+                            <Chip label="Admin" size="small" sx={{ backgroundColor: 'rgba(33, 150, 243, 0.8)', color: '#ffffff', fontFamily: 'Verdana, sans-serif', backdropFilter: 'blur(8px)' }} />
                           ) : (
-                            <Chip label="User" size="small" />
+                            <Chip label="User" size="small" sx={{ backgroundColor: 'rgba(158, 158, 158, 0.6)', color: '#ffffff', fontFamily: 'Verdana, sans-serif', backdropFilter: 'blur(8px)' }} />
                           )}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" sx={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                           {user.is_disabled ? (
-                            <Chip label="Disabled" color="error" size="small" />
+                            <Chip label="Disabled" size="small" sx={{ backgroundColor: 'rgba(244, 67, 54, 0.8)', color: '#ffffff', fontFamily: 'Verdana, sans-serif', backdropFilter: 'blur(8px)' }} />
                           ) : (
-                            <Chip label="Active" color="success" size="small" />
+                            <Chip label="Active" size="small" sx={{ backgroundColor: 'rgba(76, 175, 80, 0.8)', color: '#ffffff', fontFamily: 'Verdana, sans-serif', backdropFilter: 'blur(8px)' }} />
                           )}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" sx={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                           <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
                             {user.is_disabled ? (
                               <IconButton
@@ -328,7 +449,25 @@ export default function UserManagement() {
                   count={totalPages}
                   page={page}
                   onChange={(e, value) => setPage(value)}
-                  color="primary"
+                  sx={{
+                    '& .MuiPaginationItem-root': {
+                      color: '#ffffff',
+                      fontFamily: 'Verdana, sans-serif',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: 'rgba(33, 150, 243, 0.8)',
+                        color: '#ffffff',
+                        '&:hover': {
+                          backgroundColor: 'rgba(33, 150, 243, 1)'
+                        }
+                      }
+                    }
+                  }}
                 />
               </Box>
             )}
@@ -337,10 +476,22 @@ export default function UserManagement() {
       </Card>
 
       {/* Disable User Dialog */}
-      <Dialog open={disableDialog.open} onClose={() => setDisableDialog({ open: false, user: null, reason: '' })}>
-        <DialogTitle>Disable User</DialogTitle>
+      <Dialog 
+        open={disableDialog.open} 
+        onClose={() => setDisableDialog({ open: false, user: null, reason: '' })}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: '#ffffff'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Disable User</DialogTitle>
         <DialogContent>
-          <Typography sx={{ marginBottom: 2 }}>
+          <Typography sx={{ marginBottom: 2, color: '#ffffff', fontFamily: 'Verdana, sans-serif' }}>
             Are you sure you want to disable <strong>{disableDialog.user?.email}</strong>?
           </Typography>
           <TextField
@@ -352,47 +503,146 @@ export default function UserManagement() {
             value={disableDialog.reason}
             onChange={(e) => setDisableDialog({ ...disableDialog, reason: e.target.value })}
             placeholder="Enter reason for disabling this user..."
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                color: '#ffffff',
+                fontFamily: 'Verdana, sans-serif',
+                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                '&.Mui-focused fieldset': { borderColor: 'rgba(255, 255, 255, 0.7)' }
+              },
+              '& .MuiInputLabel-root': { color: '#cacacaff', fontFamily: 'Verdana, sans-serif' },
+              '& .MuiInputBase-input::placeholder': { color: '#999', opacity: 1 }
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDisableDialog({ open: false, user: null, reason: '' })}>Cancel</Button>
-          <Button onClick={handleDisableUser} color="warning" disabled={!disableDialog.reason.trim()}>
+          <Button 
+            onClick={() => setDisableDialog({ open: false, user: null, reason: '' })}
+            sx={{
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleDisableUser} 
+            disabled={!disableDialog.reason.trim()}
+            sx={{
+              backgroundColor: 'rgba(255, 152, 0, 0.8)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '&:hover': { backgroundColor: 'rgba(255, 152, 0, 1)' },
+              '&.Mui-disabled': { backgroundColor: 'rgba(255, 152, 0, 0.3)', color: 'rgba(255, 255, 255, 0.3)' }
+            }}
+          >
             Disable
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Delete User Dialog */}
-      <Dialog open={deleteDialog.open} onClose={() => setDeleteDialog({ open: false, user: null })}>
-        <DialogTitle>Delete User</DialogTitle>
+      <Dialog 
+        open={deleteDialog.open} 
+        onClose={() => setDeleteDialog({ open: false, user: null })}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: '#ffffff'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Delete User</DialogTitle>
         <DialogContent>
-          <Alert severity="warning" sx={{ marginBottom: 2 }}>
+          <Alert 
+            severity="warning" 
+            sx={{ 
+              marginBottom: 2,
+              backgroundColor: 'rgba(255, 152, 0, 0.2)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              border: '1px solid rgba(255, 152, 0, 0.5)',
+              '& .MuiAlert-icon': { color: '#ff9800' }
+            }}
+          >
             This action cannot be undone!
           </Alert>
-          <Typography>
+          <Typography sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif' }}>
             Are you sure you want to permanently delete <strong>{deleteDialog.user?.email}</strong>?
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialog({ open: false, user: null })}>Cancel</Button>
-          <Button onClick={handleDeleteUser} color="error">
+          <Button 
+            onClick={() => setDeleteDialog({ open: false, user: null })}
+            sx={{
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleDeleteUser}
+            sx={{
+              backgroundColor: 'rgba(244, 67, 54, 0.8)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '&:hover': { backgroundColor: 'rgba(244, 67, 54, 1)' }
+            }}
+          >
             Delete
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Admin Status Dialog */}
-      <Dialog open={adminDialog.open} onClose={() => setAdminDialog({ open: false, user: null, isAdmin: false })}>
-        <DialogTitle>{adminDialog.isAdmin ? 'Promote to Admin' : 'Demote from Admin'}</DialogTitle>
+      <Dialog 
+        open={adminDialog.open} 
+        onClose={() => setAdminDialog({ open: false, user: null, isAdmin: false })}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: '#ffffff'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{adminDialog.isAdmin ? 'Promote to Admin' : 'Demote from Admin'}</DialogTitle>
         <DialogContent>
-          <Typography>
+          <Typography sx={{ color: '#ffffff', fontFamily: 'Verdana, sans-serif' }}>
             Are you sure you want to {adminDialog.isAdmin ? 'promote' : 'demote'}{' '}
             <strong>{adminDialog.user?.email}</strong> {adminDialog.isAdmin ? 'to admin' : 'from admin'}?
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setAdminDialog({ open: false, user: null, isAdmin: false })}>Cancel</Button>
-          <Button onClick={handleUpdateAdminStatus} color="primary">
+          <Button 
+            onClick={() => setAdminDialog({ open: false, user: null, isAdmin: false })}
+            sx={{
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleUpdateAdminStatus}
+            sx={{
+              backgroundColor: 'rgba(33, 150, 243, 0.8)',
+              color: '#ffffff',
+              fontFamily: 'Verdana, sans-serif',
+              '&:hover': { backgroundColor: 'rgba(33, 150, 243, 1)' }
+            }}
+          >
             Confirm
           </Button>
         </DialogActions>
