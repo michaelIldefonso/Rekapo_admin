@@ -1,10 +1,15 @@
+// Admin logging interface with Level 7232003 (The Void) theme
+// Features comprehensive log monitoring, error tracking, and mysterious void atmosphere
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { logsService } from '../services/logsService';
 import useAuth from '../hooks/useAuth';
+// Level 7232003 theme assets for mysterious void monitoring environment
 import backgroundImage from '../assets/images/level 7232003.jpg';
 import backgroundAudio from '../assets/audio/the void.mp3';
+// Interactive calculation popup for complex admin operations
 import CalculationPopup from '../components/popups/CalculationPopup';
+// Level 7232003 themed components for void atmosphere and entity monitoring
 import Lvl807 from '../components/AdminFeatures/lvl807';
 import FlytrapHumanoid from '../components/AdminFeatures/FlytrapHumanoid';
 import Lvl7232003Entities from '../components/AdminFeatures/lvl7232003entities';
@@ -14,18 +19,22 @@ import '../index.css';
 export default function AdminLogs() {
   const { logout } = useAuth();
   const audioRef = useRef(null);
+  // Comprehensive logging state management
   const [stats, setStats] = useState(null);
   const [recentErrors, setRecentErrors] = useState(null);
   const [recentLogs, setRecentLogs] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Advanced filtering controls for log analysis
   const [filterLevel, setFilterLevel] = useState('');
   const [filterHours, setFilterHours] = useState(24);
   const [recentLogsLimit, setRecentLogsLimit] = useState(100);
+  // User-specific log search capabilities
   const [userSearch, setUserSearch] = useState('');
   const [searchType, setSearchType] = useState('email');
   const [searchResults, setSearchResults] = useState(null);
   const [searchMode, setSearchMode] = useState(false);
+  // UI feedback and interactive elements
   const [popup, setPopup] = useState({ isOpen: false, message: '', type: 'success' });
   const [showLorePopup, setShowLorePopup] = useState(false);
   const [showFlytrapPopup, setShowFlytrapPopup] = useState(false);

@@ -1,3 +1,6 @@
+// Level 0 information component - The original Backrooms level
+// Provides classic Backrooms lore and atmosphere for login page theming
+// Features: Iconic yellow rooms description with liminal space horror elements
 import { useState } from 'react';
 import { Button, Dialog, DialogContent, DialogTitle, Box, Typography } from '@mui/material';
 import backroomsImage from '../../assets/images/backrooms.jpg';
@@ -9,10 +12,12 @@ export default function TheBackrooms() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // Classic Backrooms pasta description for authentic atmosphere
   const backroomsDescription = `If you're not careful and noclip out of reality in the wrong areas, you'll end up in the Backrooms, where it's nothing but the stink of old moist carpet, the madness of mono-yellow, the endless background noise of fluorescent lights at maximum hum-buzz, and approximately six hundred million square miles of randomly segmented empty rooms to be trapped in. God save you if you hear something wandering around nearby, because it sure as hell has heard you.`;
 
   return (
     <>
+      {/* Fixed position button for easy access during login */}
       <Button
         variant="contained"
         onClick={handleOpen}
@@ -39,6 +44,7 @@ export default function TheBackrooms() {
         The Backrooms
       </Button>
 
+      {/* Glassmorphism popup with Level 0 lore and imagery */}
       <Dialog
         open={open}
         onClose={handleClose}

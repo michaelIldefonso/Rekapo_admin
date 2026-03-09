@@ -1,14 +1,19 @@
+// Level 807 (Atrium) entity component - Flytrap Humanoid information
+// Provides dangerous plant-humanoid entity lore for system statistics interface theming
+// Features: Territorial camouflaged entity with environmental sensing abilities
 import flytraphuman from '../../assets/images/flytraphuman.jpg';
 import flytraphuman2 from '../../assets/images/flytraphuman2.jpg';
 import megLogo from '../../assets/images/M.E.G logo.jpg';
 
 export default function FlytrapHumanoid({ isOpen, onClose }) {
+  // Flytrap Humanoid description emphasizing stealth and territorial nature
   const loreText = `The Flytrap Humanoid has the characteristic of being territorial since any element within their range can alarm them. It is rumored that it is "connected" with the environment and can "sense" any kind of movement at a far distance.
 
 It is able to blend in with the environment. Because of this, it can be hard to detect, and the entity will act stealthily until prey walks by, in which case, the entity will attack at sudden and unexpected times.`;
 
   if (!isOpen) return null;
 
+  // Flytrap entity information overlay for Level 807 theming
   return (
     <div
       style={{
@@ -19,6 +24,7 @@ It is able to blend in with the environment. Because of this, it can be hard to 
       }}
       onClick={onClose}
     >
+      {/* Entity description card with nature-themed styling */}
       <div
         style={{
           position: 'fixed',

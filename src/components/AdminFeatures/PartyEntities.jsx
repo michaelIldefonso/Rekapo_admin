@@ -1,3 +1,6 @@
+// Level Fun entities component - Partygoers and Partypoopers information
+// Provides entity lore for Level Fun themed admin interface
+// Features: Opposing factions - harmful Partygoers vs helpful Partypoopers
 import { useState } from 'react';
 import { Button, Dialog, DialogContent, Box, Typography } from '@mui/material';
 import megLogo from '../../assets/images/M.E.G logo.jpg';
@@ -10,7 +13,7 @@ export default function PartyEntities() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // Reusable styles
+  // Reusable styling components for consistent Level Fun theming
   const descriptionStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -32,6 +35,7 @@ export default function PartyEntities() {
     textAlign: 'left',
   };
 
+  // Entity descriptions highlighting the opposing nature of these Level Fun inhabitants
   const partygoerDescription = `Partygoers are tall, humanoid creatures with smooth leathery skin. 
   Their skin coloration varies with multiple colors, though yellow is the most common form of Partygoer. 
   The body of a Partygoer appears as a heavily modified humanoid, having a short stature and a lower body that does not 
@@ -45,6 +49,7 @@ export default function PartyEntities() {
 
   return (
     <>
+      {/* Party entities trigger button for Level Fun themed interface */}
       <Button
         variant="contained"
         onClick={handleOpen}

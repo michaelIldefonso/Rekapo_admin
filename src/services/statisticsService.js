@@ -1,12 +1,16 @@
+// System statistics service for monitoring application performance
+// Provides aggregated metrics, analytics, and trend data for admin dashboard
 import axios from 'axios';
 
+// Environment-based API configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+// Dedicated axios instance for statistics operations
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Add token to requests
+// Auto-inject admin token for statistics access
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
   if (token) {
@@ -15,7 +19,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Add response error interceptor
+// Statistics-specific error handling for monitoring data reliability
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -30,7 +34,12 @@ axiosInstance.interceptors.response.use(
 
 export const statisticsService = {
   /**
-   * Get paginated list of system statistics
+   * Get paginated system statistics with optional date range filtering
+   * Supports time-based analytics for trend analysis and reporting
+   * @param {number} page - Page number for pagination
+   * @param {number} pageSize - Statistics records per page
+   * @param {string} startDate - Start date for filtering (ISO format)
+   * @param {string} endDate - End date for filtering (ISO format)
    */
   async getStatistics(page = 1, pageSize = 20, startDate = null, endDate = null) {
     try {
@@ -39,6 +48,7 @@ export const statisticsService = {
         page_size: pageSize,
       });
 
+      // Optional date range filtering for historical analysis
       if (startDate) params.append('start_date', startDate);
       if (endDate) params.append('end_date', endDate);
 

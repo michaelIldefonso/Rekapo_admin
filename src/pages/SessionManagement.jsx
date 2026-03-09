@@ -1,3 +1,5 @@
+// Session management interface with Level 94 theme and session monitoring
+// Features session filtering, status tracking, and atmospheric motion-sensitive environment
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -20,13 +22,16 @@ import {
 } from '@mui/material';
 import { sessionService } from '../services/sessionService';
 import useAuth from '../hooks/useAuth';
+// Level 94 (Motion) theme assets for dynamic session monitoring atmosphere
 import backgroundImage from '../assets/images/lvl94.png';
 import backgroundAudio from '../assets/audio/King\'s Curfew.mp3';
+// Motion-themed components for Level 94 atmosphere
 import Level94 from '../components/AdminFeatures/Level94';
 import AnimatedEntities from '../components/AdminFeatures/AnimatedEntities';
 
 export default function SessionManagement() {
   const navigate = useNavigate();
+  // Core session data and navigation state
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

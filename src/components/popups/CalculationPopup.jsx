@@ -1,6 +1,9 @@
+// Advanced glassmorphism popup component with auto-close functionality
+// Features blur effects, type-based styling, and smooth animations for admin notifications
 import { useState, useEffect } from 'react';
 
 export default function Popup({ message, type = 'success', isOpen, onClose, autoCloseDuration = 4000 }) {
+  // Auto-close timer with cleanup for better UX
   useEffect(() => {
     if (isOpen && autoCloseDuration) {
       const timer = setTimeout(onClose, autoCloseDuration);
@@ -10,9 +13,11 @@ export default function Popup({ message, type = 'success', isOpen, onClose, auto
 
   if (!isOpen) return null;
 
+  // Type-based styling configuration
   const isSuccess = type === 'success';
   const isError = type === 'error';
 
+  // Full-screen backdrop with glassmorphism blur effect
   return (
     <div
       style={{
@@ -28,6 +33,7 @@ export default function Popup({ message, type = 'success', isOpen, onClose, auto
       }}
       onClick={onClose}
     >
+      {/* Main popup container with advanced glassmorphism styling */}
       <div
         style={{
           backgroundColor: isSuccess 
@@ -47,6 +53,7 @@ export default function Popup({ message, type = 'success', isOpen, onClose, auto
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* CSS-in-JS animation definitions for smooth entrance */}
         <style>
           {`
             @keyframes popupSlideIn {
@@ -62,10 +69,12 @@ export default function Popup({ message, type = 'success', isOpen, onClose, auto
           `}
         </style>
 
+        {/* Emoji indicator area (currently empty, could be enhanced) */}
         <div style={{ marginBottom: '16px', fontSize: '28px' }}>
           {isSuccess ? '' : ''}
         </div>
 
+        {/* Message text with enhanced typography and shadow effects */}
         <p
           style={{
             color: '#ffffff',
@@ -80,6 +89,7 @@ export default function Popup({ message, type = 'success', isOpen, onClose, auto
           {message}
         </p>
 
+        {/* Interactive dismiss button with hover effects */}
         <button
           onClick={onClose}
           style={{
@@ -102,6 +112,7 @@ export default function Popup({ message, type = 'success', isOpen, onClose, auto
               : '0 6px 20px rgba(220, 80, 80, 0.4)',
             transition: 'all 0.3s ease',
           }}
+          // Enhanced hover effects for better user interaction feedback
           onMouseEnter={(e) => {
             e.target.style.transform = 'translateY(-3px)';
             e.target.style.boxShadow = isSuccess

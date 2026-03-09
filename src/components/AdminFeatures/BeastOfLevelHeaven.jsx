@@ -1,9 +1,13 @@
+// Level Heaven entities component - Heavenly realm dangerous inhabitants
+// Provides celestial entity information for admin interface theming
+// Features: Aether-Walker and other heavenly entities that enforce the level's serenity
 import { Dialog, DialogContent, Box, Typography } from '@mui/material';
 import heavenEntity from '../../assets/images/heaven entity.png';
 import noonEffigy from '../../assets/images/The Noon Effigy.jpg';
 import penumbraPatient from '../../assets/images/The Penumbra Patent.png';
 
 export default function BeastOfLevelHeaven({ onClose }) {
+  // Consistent styling for entity descriptions in heavenly theme
   const descriptionStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -16,6 +20,7 @@ export default function BeastOfLevelHeaven({ onClose }) {
     whiteSpace: 'normal',
   };
 
+  // Title styling for entity designations
   const titleStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -26,6 +31,7 @@ export default function BeastOfLevelHeaven({ onClose }) {
     textShadow: '0 2px 4px rgba(0,0,0,0.6)',
   };
 
+  // Aether-Walker entity description emphasizing its role as level enforcer
   const aetherWalkerDescription = `Standing approximately 30 meters tall, The Aether-Walker is a massive, pale, and skeletal quadruped that wanders the horizon in a slow, silent loop. Though it lacks facial features, its head tracks wanderers with unsettling precision, usually remaining docile and abstaining from biological needs like eating or sleeping. However, should a wanderer damage the cloud floor or create excessive noise, the sky instantly shifts to a violent grey as the entity manifests directly behind the offender. Rather than attacking physically, it radiates an overwhelming psychic pressure described as "religious dread," forcing victims to kneel and weep until they succumb to exhaustion.`;
 
   const noonEffigyDescription = `This entity is the physical embodiment of "over-reality." It appears when the sun is at its absolute zenith and shadows have completely disappeared, creating a flat, uncanny look to the world. The Noon Effigy is not a biological creature, but a towering solidification of heat haze and static. The object it holds—resembling a sword—is actually a "Reality Anchor," a tuning fork that emits a low-frequency hum audible only to those suffering from heatstroke or dehydration. Witnesses do not feel fear; instead, they experience "Psychic Sunburn"—an agonizing, hyper-aware state where they can feel every individual hair on their body and hear the blood rushing in their ears. It represents the terror of being completely exposed, with nowhere to hide.`;

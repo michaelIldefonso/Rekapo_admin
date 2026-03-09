@@ -1,12 +1,17 @@
+// Authentication service for admin OAuth2 flow and token management
+// Uses Google OAuth2 for secure admin authentication
 import axios from 'axios';
 
+// Environment-based API configuration with fallback for local development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+// Create dedicated axios instance for auth operations
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Add token to requests
+// Automatically inject admin token into all outgoing requests
+// Critical for maintaining authenticated session across API calls
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
   if (token) {
@@ -15,7 +20,8 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Add response error interceptor
+// Centralized error handling for authentication failures
+// Provides detailed logging for debugging auth issues
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {

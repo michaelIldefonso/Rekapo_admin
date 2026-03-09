@@ -1,8 +1,13 @@
+// Entity catalog component for "You Should Not Be Here" level
+// Provides detailed entity information for session details interface theming
+// Features: Todd (friendly), Headless (mysterious), and Caution Sign Entity (malicious)
 import toddImage from '../../assets/images/todd entity.jpg';
 import headlessImage from '../../assets/images/headless entity.jpg';
 import cautionSignImage from '../../assets/images/caution sign entity.jpg';
 
 export default function Entities({ isOpen, onClose }) {
+  // Entity data array with contrasting personalities and behaviors
+  // Demonstrates the range of entity types from helpful to malicious
   const entities = [
     {
       name: 'Todd',
@@ -23,6 +28,7 @@ export default function Entities({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
+  // Full-screen entity catalog overlay
   return (
     <div
       style={{
@@ -33,6 +39,7 @@ export default function Entities({ isOpen, onClose }) {
       }}
       onClick={onClose}
     >
+      {/* Entity information panel with scrollable content */}
       <div
         style={{
           position: 'fixed',

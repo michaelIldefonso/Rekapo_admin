@@ -1,3 +1,6 @@
+// M.E.G. (Major Explorer Group) information component
+// Provides faction lore for login page and general admin theming
+// Features: Organization background, purpose, and structure details
 import { useState } from 'react';
 import { Button, Dialog, DialogContent, DialogTitle, Box, Typography } from '@mui/material';
 import megImage from '../../assets/images/megpersonel.png';
@@ -9,10 +12,12 @@ export default function MEG() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // M.E.G. organizational background emphasizing their protective and exploratory role
   const megDescription = `The M.E.G. (a.k.a. The "Major Explorer Group") is a group created by the people of the Backrooms. The group started out as an exploration outpost in 2012, but it grew to become an exploration group by 2014. The M.E.G. tries to keep wanderers safe from entities, traps, and other groups such as The Insurrection, which they are at war with for territory of levels like Level 3. To ensure the safety of the wanderers, the M.E.G. maintains multiple teams for different purposes. This faction is extremely friendly and will allow new members into a team known as the "Volunteer Squad" until they are ready to be in a team of their own.`;
 
   return (
     <>
+      {/* M.E.G. faction button positioned opposite to other level buttons */}
       <Button
         variant="contained"
         onClick={handleOpen}
@@ -39,6 +44,7 @@ export default function MEG() {
         M.E.G
       </Button>
 
+      {/* M.E.G. organizational information dialog */}
       <Dialog
         open={open}
         onClose={handleClose}

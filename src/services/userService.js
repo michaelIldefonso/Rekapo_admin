@@ -1,12 +1,16 @@
+// User management service for admin operations
+// Handles CRUD operations, user filtering, and role management
 import axios from 'axios';
 
+// Environment-based API configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+// Dedicated axios instance for user management operations
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Add token to requests
+// Auto-inject admin token for secure user management operations
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
   if (token) {
@@ -15,7 +19,8 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Add response error interceptor
+// Enhanced error logging for user management operations
+// Helps distinguish user service errors from other API errors
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -30,10 +35,19 @@ axiosInstance.interceptors.response.use(
 
 export const userService = {
   /**
-   * Get paginated list of users with optional filters
+   * Get paginated list of users with advanced filtering capabilities
+   * Supports search, role filtering, and status-based queries
+   * @param {Object} options - Filtering and pagination options
+   * @param {number} options.page - Page number for pagination
+   * @param {number} options.pageSize - Number of users per page 
+   * @param {string} options.search - Search term for user lookup
+   * @param {boolean|null} options.isAdmin - Filter by admin role
+   * @param {boolean|null} options.isDisabled - Filter by disabled status
+   * @param {boolean|null} options.isActive - Filter by active status
    */
   async getUsers({ page = 1, pageSize = 20, search = '', isAdmin = null, isDisabled = null, isActive = null } = {}) {
     try {
+      // Build query parameters dynamically based on provided filters
       const params = new URLSearchParams({ page: page.toString(), page_size: pageSize.toString() });
       if (search) params.append('search', search);
       if (isAdmin !== null) params.append('is_admin', isAdmin.toString());

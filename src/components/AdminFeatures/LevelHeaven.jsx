@@ -1,11 +1,16 @@
+// Level Heaven information component - Divine paradise realm
+// Provides heavenly cloud-based environment for admin interface theming
+// Features: Infinite cloud expanse with deceptive tranquility and enforced silence
 import { Dialog, DialogContent, Box, Typography } from '@mui/material';
 import lheaven from '../../assets/images/lheaven.jpg';
 import lheaven2 from '../../assets/images/lheaven2.jpg';
 import lvlheaven3 from '../../assets/images/lheaven3.jpg';
 
 export default function LevelHeaven({ onClose }) {
+  // Level Heaven description emphasizing deceptive paradise and psychological hazards
   const levelHeavenDescription = `Level "Heaven?" is a non-linear, infinite expanse resembling the upper troposphere, characterized by a boundless sea of pristine, white cumulonimbus clouds beneath a piercingly bright, deep blue sky. Unlike natural vapor, this cloud floor is solid enough to traverse, possessing the texture of dense, damp cotton or aerogel known as "Cloudcrete," though experienced wanderers warn of "soft spots"—patches of false density that drop victims indefinitely into the "Blue Void" beneath the level's crust. The air remains fixed at a cool 15°C and carries the sterile, distinct scent of ozone and sanitized hospital linens, creating the unsettling impression that the entire realm is a preserved medical sample rather than an afterlife. The environment is defined by an unnerving, acoustically dampened silence; despite the open air, there is no wind to carry sound, meaning voices do not echo and the only noise is the wet crunch of one's own footsteps. With the sun locked permanently at a high-noon position, casting no shadows and rendering time impossible to track, the level traps wanderers in a disorienting stasis of eternal daylight known as "Divine Ennui," a psychological hazard where the lack of visual contrast and sleep cycles causes rapid memory erosion and catatonia. This pristine sterility is strictly enforced by the Aether-Walkers, the skeletal giants that roam the horizon; while usually docile, they act as the level's immune system, and any attempt to damage the cloud structures or create excessive noise causes the eternal blue sky to instantly bruise into a violent grey, summoning the entities to purge the "contaminant. Some wanderers glimpse distant rectangular openings glowing gold and humming softly, but those who approach either see them vanish or awaken moments later with no memory of what occurred.`;
 
+  // Level Heaven information overlay with divine theming
   return (
     <div
       style={{
@@ -16,6 +21,7 @@ export default function LevelHeaven({ onClose }) {
       }}
       onClick={onClose}
     >
+      {/* Heavenly level description card */}
       <div
         style={{
           position: 'fixed',

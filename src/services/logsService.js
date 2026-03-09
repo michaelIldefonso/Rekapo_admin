@@ -1,12 +1,16 @@
+// Logging service for admin monitoring and system debugging
+// Provides log aggregation, filtering, and real-time monitoring capabilities
 import axios from 'axios';
 
+// Environment-based API configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+// Dedicated axios instance for log operations
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Add token to requests
+// Auto-inject admin token for secure log access
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
   if (token) {
@@ -15,7 +19,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Add response error interceptor
+// Logs-specific error handling for debugging log retrieval issues
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -30,7 +34,9 @@ axiosInstance.interceptors.response.use(
 
 export const logsService = {
   /**
-   * Get daily log summary from database
+   * Get aggregated daily log summary for quick overview
+   * Provides high-level metrics and trends for specific dates
+   * @param {string} date - Specific date for summary (ISO format, optional)
    */
   async getLogSummary(date = null) {
     try {
@@ -45,7 +51,12 @@ export const logsService = {
   },
 
   /**
-   * Get recent logs from database, optionally filter by level
+   * Get recent logs with granular filtering options
+   * Supports log level filtering and user-specific log retrieval
+   * @param {number} limit - Maximum number of logs to retrieve
+   * @param {string} level - Log level filter (ERROR, WARN, INFO, DEBUG)
+   * @param {number} hours - Time window in hours for log retrieval
+   * @param {string} userEmail - Filter logs by specific user email
    */
   async getRecentLogs(limit = 100, level = null, hours = 24, userEmail = null) {
     try {

@@ -1,10 +1,14 @@
+// Login page with immersive Backrooms theme and OAuth2 integration
+// Features atmospheric audio, themed visuals, and Google authentication
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Card, CircularProgress, Typography, Alert } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 import authService from '../services/authService';
+// Backrooms Level 0 theme assets for immersive admin experience
 import backgroundImage from '../assets/images/lvl0.jpg';
 import backgroundAudio from '../assets/audio/Fallen Down - Toby Fox.mp3';
+// Themed components for Backrooms atmosphere
 import TheBackrooms from '../components/AdminFeatures/TheBackrooms';
 import MEG from '../components/AdminFeatures/MEG';
 
@@ -14,25 +18,26 @@ export default function Login() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // Audio reference for atmospheric background music
   const audioRef = useRef(null);
 
-  // Auto-play background music
+  // Auto-play background music with volume control and browser compatibility
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Set volume to 30%
+      audioRef.current.volume = 0.3; // Set volume to 30% for non-intrusive experience
       audioRef.current.play().catch(err => {
         console.log('Auto-play prevented:', err);
       });
     }
 
-    // Add click handler to play audio on first user interaction
+    // Fallback: play audio on first user interaction (browser auto-play policy)
     const handleFirstClick = () => {
       if (audioRef.current && audioRef.current.paused) {
         audioRef.current.play().catch(err => {
           console.log('Audio play failed:', err);
         });
       }
-      // Remove listener after first click
+      // Remove listener after first successful play
       document.removeEventListener('click', handleFirstClick);
     };
 
@@ -43,7 +48,7 @@ export default function Login() {
     };
   }, []);
 
-  // Check for error in URL params
+  // Handle authentication errors from URL parameters (OAuth2 callback)
   useEffect(() => {
     const errorParam = searchParams.get('error');
     if (errorParam) {

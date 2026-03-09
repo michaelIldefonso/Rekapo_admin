@@ -1,3 +1,6 @@
+// Level "You Should Not Be Here" information component - Forbidden access warning
+// Provides ominous restricted area atmosphere for session details interface
+// Features: Derelict parking lots with enforced warning messages and dangerous fog
 import lvlYouShouldNotBeHere1 from '../../assets/images/lvl youshouldnotbehere1.jpg';
 import lvlYouShouldNotBeHere2 from '../../assets/images/lvl youshouldnotbehere2.jpg';
 import lvlYouShouldNotBeHere3 from '../../assets/images/lvl youshouldnotbehere3.jpg';
@@ -7,6 +10,7 @@ export default function LevelYouShouldNotBeHere({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
+  // Forbidden level warning overlay
   return (
     <div
       style={{
@@ -17,6 +21,7 @@ export default function LevelYouShouldNotBeHere({ isOpen, onClose }) {
       }}
       onClick={onClose}
     >
+      {/* Warning level description container */}
       <div
         style={{
           position: 'fixed',

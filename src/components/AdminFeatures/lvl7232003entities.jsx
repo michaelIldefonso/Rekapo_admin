@@ -1,10 +1,13 @@
+// Level 7,232,003 entities component - Cosmic void inhabitants information
+// Provides entity lore for the Astral Brine Nebula themed admin interface
+// Features: Astronaut Swimmers, Astral Forgers, and other cosmic entities
 import { Dialog, DialogContent, Box, Typography } from '@mui/material';
 import astronautSwimmersGif from '../../assets/images/astronaut swimmer.gif';
 import astralForgerImg from '../../assets/images/astral forger.jpg';
 import parallaxShepherdImg from '../../assets/images/astral brine.jpg';
 
 export default function Lvl7232003Entities({ isOpen, onClose }) {
-  // Reusable styles
+  // Consistent styling for cosmic entity descriptions
   const descriptionStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -26,6 +29,7 @@ export default function Lvl7232003Entities({ isOpen, onClose }) {
     textAlign: 'left',
   };
 
+  // Astronaut Swimmers description emphasizing their benevolent guidance role
   const astronautSwimmersLore = `Astronaut Swimmers are benevolent entities resembling human astronauts in unmarked EVA style suits who drift effortlessly through the Astral Brine, often appearing near lost, injured, or panicked wanderers. They do not speak or gesture, yet their presence induces calm and clarity, and they are known to guide wanderers away from unstable regions or toward potential exits. Attempts to interfere with or remove their helmets have universally failed and resulted in spatial distortions, leading many to believe these entities are either preserved former wanderers or autonomous manifestations of the level itself acting as caretakers.`;
 
   const astralForgerLore = `The Astral Forger is a colossal cosmic entity resembling a humanoid blacksmith formed from condensed starlight, fractured metal, and slowly rotating nebular matter, most often encountered near regions where the Astral Brine solidifies into anvil like platforms. The entity is neutral and rarely acknowledges wanderers, but those who remain calm, patient, and non-hostile may earn its attention, at which point it will silently offer to craft either a single piece of armor or a single weapon never both using materials drawn directly from the level itself.`;

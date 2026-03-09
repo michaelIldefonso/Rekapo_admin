@@ -1,3 +1,5 @@
+// Detailed session view with Level "You Should Not Be Here" theme
+// Features comprehensive session data, user actions log, and forbidden access atmosphere
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
@@ -20,12 +22,15 @@ import {
 import { ArrowBack, ExpandMore, Block } from '@mui/icons-material';
 import { sessionService } from '../services/sessionService';
 import { useAuth } from '../hooks/useAuth';
+// "You Should Not Be Here" theme assets for dangerous detailed view
 import backgroundImage from '../assets/images/lvl youshouldnotbehere.jpg';
 import backgroundAudio from '../assets/audio/youshouldnotbehere.mp3';
+// Forbidden level themed components for restricted session access atmosphere
 import LevelYouShouldNotBeHere from '../components/AdminFeatures/LevelYouShouldNotBeHere';
 import Entities from '../components/AdminFeatures/Entities';
 
 export default function SessionDetails() {
+  // Extract session ID from URL parameters for detailed view
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const { logout } = useAuth();

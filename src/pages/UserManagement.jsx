@@ -1,3 +1,5 @@
+// User management interface with Poolrooms theme and comprehensive user controls
+// Features user CRUD operations, role management, and atmospheric poolrooms environment
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -38,13 +40,16 @@ import {
 } from '@mui/icons-material';
 import userService from '../services/userService';
 import { useAuth } from '../hooks/useAuth';
+// Poolrooms theme assets for calming blue atmosphere
 import backgroundImage from '../assets/images/poolrooms1.jpg';
 import backgroundAudio from '../assets/audio/daisy bell.mp3';
+// Poolrooms themed components for immersive user management
 import Poolrooms from '../components/AdminFeatures/Poolrooms';
 import PoolRoomEntities from '../components/AdminFeatures/PoolRoomEntities';
 
 export default function UserManagement() {
   const { logout } = useAuth();
+  // Core user data state management
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);

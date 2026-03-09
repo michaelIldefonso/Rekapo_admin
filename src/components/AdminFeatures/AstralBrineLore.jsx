@@ -1,10 +1,13 @@
+// Level 7,232,003 (Astral Brine Nebula) information component
+// Provides cosmic void atmosphere for admin logs interface theming
+// Features: Vast cosmic expanse with luminous Astral Brine liquid and reality distortions
 import { Dialog, DialogContent, Box, Typography } from '@mui/material';
 import nebulaImg1 from '../../assets/images/lvl nebula1.jpg';
 import nebulaImg2 from '../../assets/images/lvl nebula2.jpg';
 import nebulaImg3 from '../../assets/images/lvl nebula3.jpg';
 
 export default function AstralBrineLore({ isOpen, onClose }) {
-  // Reusable styles
+  // Consistent styling for cosmic level descriptions
   const descriptionStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -17,10 +20,12 @@ export default function AstralBrineLore({ isOpen, onClose }) {
     whiteSpace: 'normal',
   };
 
+  // Level 7,232,003 description emphasizing cosmic vastness and reality distortions
   const lore = `Level 7,232,003 is a vast cosmic expanse resembling a fractured nebula filled with swirling magenta, violet, and deep-blue clouds, interspersed with star-like lights that do not correspond to any known constellations. Large areas of the level are composed of a luminous liquid known as Astral Brine, which behaves like water but makes drowning impossible, allowing wanderers to breathe freely regardless of depth. Gravity is inconsistent and appears to shift based on movement and intent rather than physical laws, while prolonged exposure may cause disorientation, false memories, and a sensation of drifting through time, though the level itself remains largely stable and non-hostile. Occasional ripples in the Astral Brine reveal fleeting reflections of unknown worlds, some of which persist long enough to suggest failed or incomplete exits.Soft, distant vibrations can sometimes be felt through the Brine, resembling the echo of massive objects moving far beyond visible space. Astronaut Swimmers are frequently observed near these disturbances, suggesting they may act as stabilizing agents or guides when the level subtly shifts. Wanderers who attempt to follow the reflections too closely often find distance folding in on itself, returning them to their original position after extended periods of travel.`;
 
   if (!isOpen) return null;
 
+  // Cosmic level information dialog with nebula theming
   return (
     <Dialog
       open={isOpen}

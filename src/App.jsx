@@ -1,4 +1,7 @@
+// React Router imports for client-side navigation
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+// Page component imports - organized by functionality
 import SystemStatistics from './pages/SystemStatistics';
 import UserManagement from './pages/UserManagement';
 import UserAnalytics from './pages/UserAnalytics';
@@ -9,18 +12,27 @@ import AuthCallback from './pages/AuthCallback';
 import AdminInterface from './pages/AdminInterface';
 import Stats from './pages/Stats';
 import AdminLogs from './pages/AdminLogs';
+
+// Context providers for state management
 import { AdminProvider } from './components/AdminProvider';
 import { AuthProvider } from './contexts/AuthContext';
+// Route protection component for authentication
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
+    // BrowserRouter enables client-side routing for SPA navigation
     <BrowserRouter>
+      {/* AuthProvider manages authentication state across the entire app */}
       <AuthProvider>
+        {/* AdminProvider manages admin-specific state and permissions */}
         <AdminProvider>
           <Routes>
+            {/* Public routes - accessible without authentication */}
             <Route path="/login" element={<Login />} />
             <Route path="/auth/success" element={<AuthCallback />} />
+            {/* Protected admin routes - require authentication */}
+            {/* Dashboard route showing system overview */}
             <Route
               path="/dashboard"
               element={
@@ -29,6 +41,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* User management functionality */}
             <Route
               path="/users"
               element={
@@ -37,6 +50,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* User behavior analytics and insights */}
             <Route
               path="/user-analytics"
               element={
@@ -45,6 +59,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Session management overview */}
             <Route
               path="/sessions"
               element={
@@ -53,6 +68,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Individual session details with dynamic sessionId parameter */}
             <Route
               path="/sessions/:sessionId"
               element={
@@ -61,6 +77,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* System statistics route - duplicate of dashboard, consider consolidating */}
             <Route
               path="/statistics"
               element={
@@ -69,6 +86,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Admin activity logs and audit trail */}
             <Route
               path="/logs"
               element={
@@ -77,6 +95,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Root route - main admin interface landing page */}
             <Route
               path="/"
               element={
@@ -85,6 +104,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Alternative admin route - same as root, consider redirect instead */}
             <Route
               path="/admin"
               element={

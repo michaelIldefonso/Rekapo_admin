@@ -1,3 +1,5 @@
+// User analytics dashboard with comprehensive behavioral analysis
+// Features user behavior tracking, engagement metrics, and advanced filtering
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {

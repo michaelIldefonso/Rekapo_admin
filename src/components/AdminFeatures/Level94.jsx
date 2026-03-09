@@ -1,3 +1,6 @@
+// Level 94 (Motion) information component - Stop-motion aesthetic level
+// Provides 1930s-themed stop-motion town atmosphere for session management interface
+// Features: Grainy town with day/night cycle and dangerous Animations entities
 import { Button, Dialog, DialogContent, Box, Typography } from '@mui/material';
 import lvl94aImage from '../../assets/images/lvl 94a.png';
 import lvl94bImage from '../../assets/images/lvl 94b.png';
@@ -5,6 +8,7 @@ import lvl94cImage from '../../assets/images/lvl 94c.png';
 import megLogo from '../../assets/images/M.E.G logo.jpg';
 
 export default function Level94({ isOpen, onClose }) {
+  // Consistent styling for level descriptions with enhanced readability
   const descriptionStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -18,6 +22,7 @@ export default function Level94({ isOpen, onClose }) {
     textShadow: '0 1px 3px rgba(0,0,0,0.6)',
   };
 
+  // Title styling for level designation
   const titleStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -28,6 +33,7 @@ export default function Level94({ isOpen, onClose }) {
     textShadow: '0 2px 5px rgba(0,0,0,0.7)',
   };
 
+  // Level 94 description emphasizing the stop-motion aesthetic and day/night danger cycle
   const level94Description = `Level 94 appears to be a large town, a floating castle and grass hills, but everything has a grainy effect, as if this place was crafted. The main town is safe, with no Entities during the day.
 
 This Town has a big water fountain in the center, flowing with Almond Water. This town seems to be in the 1930's, in a stop-motion type feel. This town has tiny houses, with some furniture, mostly in 1930's to 1950's. The town also has 1930's styled cars, and milk vans, filled with Almond Milk. The town also has siren poles, which time to time, play happy cartoony music. At this time, everything is safe, until it turns night, the music will stop completely, and at this time the Entity known as Animations will start to appear, and will attack violently, if spotted.
@@ -36,6 +42,7 @@ The grass hills of Level 94 usually go on forever, and is infinite, the only thi
 
   if (!isOpen) return null;
 
+  // Level 94 information dialog with 1930s stop-motion theming
   return (
     <Dialog
       open={isOpen}

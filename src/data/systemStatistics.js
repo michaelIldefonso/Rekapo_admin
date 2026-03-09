@@ -1,3 +1,5 @@
+// Mock system statistics for admin dashboard development
+// Provides sample metrics for testing dashboard visualizations and monitoring
 export const systemStatistics = {
   totalUsers: 123,
   activeSessions: 12,

@@ -1,10 +1,15 @@
+// System statistics dashboard with Level 807 (Atrium) theme
+// Features statistical analysis, data visualization, and dangerous atrium atmosphere
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { statisticsService } from '../services/statisticsService';
 import useAuth from '../hooks/useAuth';
+// Level 807 (The Atrium) theme assets for dangerous monitoring environment
 import backgroundImage from '../assets/images/lvl807.jpg';
 import backgroundAudio from '../assets/audio/lvl807.mp3';
+// Interactive calculation popup for complex statistical operations
 import CalculationPopup from '../components/popups/CalculationPopup';
+// Level 807 themed components for atrium atmosphere and entity monitoring
 import Lvl807 from '../components/AdminFeatures/lvl807';
 import FlytrapHumanoid from '../components/AdminFeatures/FlytrapHumanoid';
 import '../index.css';
@@ -12,21 +17,23 @@ import '../index.css';
 export default function SystemStatistics() {
   const { logout } = useAuth();
   const audioRef = useRef(null);
+  // Core statistics data and pagination state
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  // Interactive UI elements and popup controls
   const [popup, setPopup] = useState({ isOpen: false, message: '', type: 'success' });
   const [showLorePopup, setShowLorePopup] = useState(false);
   const [showFlytrapPopup, setShowFlytrapPopup] = useState(false);
   const pageSize = 10;
 
-  // Auto-play background music
+  // Auto-play Level 807 atmospheric audio with forced volume control
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Force volume to always be 0.3
+    // Enforce consistent volume level for atmospheric immersion
     const forceVolume = () => {
       if (audio.volume !== 0.3) {
         audio.volume = 0.3;

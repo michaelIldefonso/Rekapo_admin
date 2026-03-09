@@ -1,12 +1,16 @@
+// Session management service for admin monitoring and control
+// Handles user session lifecycle, analytics, and training consent tracking
 import axios from 'axios';
 
+// Environment-based API configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+// Dedicated axios instance for session operations
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Add token to requests
+// Auto-inject admin token for session management operations
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
   if (token) {
@@ -15,7 +19,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Add response error interceptor
+// Session-specific error handling for debugging session issues
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -30,7 +34,14 @@ axiosInstance.interceptors.response.use(
 
 export const sessionService = {
   /**
-   * Get paginated list of sessions
+   * Get paginated list of sessions with intelligent search capabilities
+   * Search logic: numeric input searches by user_id, text searches by session title
+   * @param {number} page - Page number for pagination
+   * @param {number} pageSize - Sessions per page
+   * @param {string|number} search - Search term (user ID or session title)
+   * @param {string} status - Session status filter
+   * @param {boolean} trainingConsent - Training consent filter
+   * @param {boolean} isDeleted - Include/exclude deleted sessions
    */
   async getSessions(page = 1, pageSize = 20, search = null, status = null, trainingConsent = null, isDeleted = null) {
     try {
@@ -39,7 +50,7 @@ export const sessionService = {
         page_size: pageSize,
       });
 
-      // Filter by user_id if search is a number, otherwise search by session_title
+      // Smart search: distinguish between user ID (numeric) and session title (text)
       if (search) {
         if (!isNaN(search)) {
           params.append('user_id', search);

@@ -1,3 +1,6 @@
+// Level Fun information component - Cheerful bounce house level
+// Provides Level Fun lore for AdminInterface page theming
+// Features: Warehouse with inflatable bounce houses and frigid air-conditioning atmosphere
 import { useState } from 'react';
 import { Button, Dialog, DialogContent, Box, Typography } from '@mui/material';
 import levelFunImage1 from '../../assets/images/lvlfunbtn.jpg';
@@ -11,10 +14,12 @@ export default function LevelFun() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // Level Fun description emphasizing the contrast between fun appearance and sinister nature
   const levelFunDescription = ` Level Fun is a spacious warehouse containing a vast amount of inflatable bounce houses. The only visible walls are those along the entrance, as the rest of the interior is entirely obscured by the numerous inflatables, with some of the largest nearly reaching the metal trusses on the ceiling. Upon entering the level, if one even briefly breaks line-of-sight with the entrance, the doors and walls will vanish, with the unending series of inflatables simply continuing on in their place. The constant drone of inflating air and overhead lights can be heard echoing throughout the entirety of Level Fun, with the frigid air-conditioning causing one goosebumps every so often. Extension cords cover the faded, retro carpeting in snakelike formations, stretching out in all directions to supply power to each inflatable. Different colors, themes, and designs make up the numerous bounce houses placed side-by-side across the level; the scratchy, uncomfortable feeling of thin-carpet-on-concrete tends to drive wanderers to enter one, if only to find relief from the floor's insufficient padding.`;
 
   return (
     <>
+      {/* Level Fun access button with cheerful but professional styling */}
       <Button
         variant="contained"
         onClick={handleOpen}
@@ -41,6 +46,7 @@ export default function LevelFun() {
         Level Fun
       </Button>
 
+      {/* Fun level information dialog with bounce house imagery */}
       <Dialog
         open={open}
         onClose={handleClose}

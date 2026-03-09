@@ -1,35 +1,40 @@
+// Main admin dashboard with Level Fun theme and system overview
+// Features real-time statistics, themed atmosphere, and navigation hub
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { statisticsService } from '../services/statisticsService';
+// Level Fun theme assets for cheerful admin experience
 import backgroundImage from '../assets/images/lvl fun!.jpg';
 import backgroundAudio from '../assets/audio/Escape The Backrooms OST - Fun (You Day!) (Filtered Version).mp3';
+// Level Fun themed components for immersive dashboard
 import LevelFun from '../components/AdminFeatures/LevelFun';
 import PartyEntities from '../components/AdminFeatures/PartyEntities';
+// Recharts library for comprehensive data visualization
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function AdminInterface() {
   const { logout } = useAuth();
   const audioRef = useRef(null);
+  // State for displaying latest system statistics on dashboard
   const [statistics, setStatistics] = useState(null);
 
-  // Auto-play background music
+  // Auto-play Level Fun background music for cheerful admin atmosphere
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Set volume to 30%
+      audioRef.current.volume = 0.3; // Balanced volume for background ambience
       audioRef.current.play().catch(err => {
         console.log('Auto-play prevented:', err);
       });
     }
 
-    // Add click handler to play audio on first user interaction
+    // Browser auto-play policy fallback
     const handleFirstClick = () => {
       if (audioRef.current && audioRef.current.paused) {
         audioRef.current.play().catch(err => {
           console.log('Audio play failed:', err);
         });
       }
-      // Remove listener after first click
       document.removeEventListener('click', handleFirstClick);
     };
 
@@ -40,10 +45,11 @@ export default function AdminInterface() {
     };
   }, []);
 
-  // Fetch latest statistics
+  // Fetch latest system statistics for dashboard overview
   useEffect(() => {
     const fetchLatestStatistics = async () => {
       try {
+        // Get most recent statistics record for dashboard display
         const data = await statisticsService.getStatistics(1, 1);
         if (data.statistics && data.statistics.length > 0) {
           setStatistics(data.statistics[0]);

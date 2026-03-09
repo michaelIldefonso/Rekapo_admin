@@ -1,9 +1,13 @@
+// Level 94 entity information component - Motion-sensitive entities popup
+// Provides detailed lore about dangerous animated entities found in Level 94 (Motion)
+// Features: Animated King, Animations, and Smilers with comprehensive descriptions
 import { Button, Dialog, DialogContent, Box, Typography } from '@mui/material';
 import animatedKingImage from '../../assets/images/animatedking.png';
 import animationsImage from '../../assets/images/animations.png';
 import smilerImage from '../../assets/images/Smiler.jpg';
 
 export default function AnimatedEntities({ isOpen, onClose }) {
+  // Consistent styling for entity descriptions across the component
   const descriptionStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -16,6 +20,7 @@ export default function AnimatedEntities({ isOpen, onClose }) {
     whiteSpace: 'normal',
   };
 
+  // Title styling for entity names and sections
   const titleStyles = {
     color: '#ffffffff',
     fontFamily: 'Verdana, sans-serif',
@@ -25,6 +30,7 @@ export default function AnimatedEntities({ isOpen, onClose }) {
     textAlign: 'left',
   };
 
+  // Atmospheric lore descriptions for immersive admin experience
   const animatedKingDescription = `The Animated King is a jagged, stop-motion nightmare—a towering silhouette of shifting static and ink-black void that moves with the sickening, rhythmic stutter of a corrupted film reel. His crown is a crown of glitching thorns that bleed chromatic aberration into the air, while his tattered, liquid-shadow robes seem to absorb the very light around him, turning the world into a grainy, high-contrast burial ground. He does not breathe or speak; he simply exists as a localized collapse of reality, vibrating with the low-frequency hum of a dying projector and forcing everything in his presence to mimic his erratic, frame-by-frame movement until they snap under the tension of his unnatural "Motion."`;
 
   const animationsDescription = `Once the sun starts going down and the night arrives, Animations will spawn. If a wanderer is out in the open during the night, the Animations will start chasing them. They travel in groups and are faster than Wanderers, so escaping them is nearly impossible. In order to avoid them, you have to hide in a house. A house isn't completely safe from Animations, because they can break into houses. To keep them from breaking in, turn off the light using a Light Switch and/or hide underneath the Bed or in the Closet. If they figure out someone's in a house, they will come and knock on the door. At that point, if you're in a house, you only have a couple seconds to hide and avoid them killing you. Once the morning comes, all Animations will disappear until the next night.`;
@@ -33,6 +39,7 @@ export default function AnimatedEntities({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
+  // Glassmorphism dialog positioned for optimal viewing during session management
   return (
     <Dialog
       open={isOpen}

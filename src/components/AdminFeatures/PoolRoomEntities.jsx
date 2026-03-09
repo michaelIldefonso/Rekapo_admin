@@ -1,3 +1,6 @@
+// Level 37 (Poolrooms) entities component - Aquatic environment inhabitants
+// Provides entity information for poolrooms themed user management interface 
+// Features: Skin Stealers, Glitchtons, and other water-adapted entities
 import { useState } from 'react';
 import { Button, Dialog, DialogContent, Box, Typography } from '@mui/material';
 import skinstealer from '../../assets/images/skinstealer1.jpg';
