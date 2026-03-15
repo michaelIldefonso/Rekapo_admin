@@ -586,7 +586,7 @@ export default function AdminInterface() {
                   fontFamily: 'Verdana, sans-serif',
                   fontSize: '16px'
                 }}>User Distribution</h4>
-                <ResponsiveContainer width="100%" height={200}>
+                <ResponsiveContainer width="100%" height={260}>
                   <PieChart>
                     <Pie
                       data={[
@@ -596,10 +596,15 @@ export default function AdminInterface() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, value }) => `${name}: ${value}`}
-                      outerRadius={80}
+                      label={({ name, value, x, y, textAnchor }) => (
+                        <text x={x} y={y} dy="0.35em" textAnchor={textAnchor} fill={name === 'Active Users' ? '#06b6d4' : '#9ca3af'} fontSize={12} fontFamily="Verdana, sans-serif" fontWeight={600}>
+                          {`${name}: ${value}`}
+                        </text>
+                      )}
+                      outerRadius={70}
                       fill="#8884d8"
                       dataKey="value"
+                      isAnimationActive={false}
                     >
                       <Cell fill="#06b6d4" />
                       <Cell fill="#6b7280" />
@@ -611,6 +616,7 @@ export default function AdminInterface() {
                         borderRadius: '8px',
                         color: '#ffffff'
                       }}
+                      itemStyle={{ color: '#ffffff' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
