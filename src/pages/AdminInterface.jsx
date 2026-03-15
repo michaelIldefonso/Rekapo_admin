@@ -18,6 +18,7 @@ export default function AdminInterface() {
   const audioRef = useRef(null);
   // State for displaying latest system statistics on dashboard
   const [statistics, setStatistics] = useState(null);
+  const [durationTrend, setDurationTrend] = useState([]);
 
   // Auto-play Level Fun background music for cheerful admin atmosphere
   useEffect(() => {
@@ -45,17 +46,34 @@ export default function AdminInterface() {
     };
   }, []);
 
-  // Fetch latest system statistics for dashboard overview
+  // Fetch system statistics for dashboard overview and line chart
   useEffect(() => {
     const fetchLatestStatistics = async () => {
       try {
-        // Get most recent statistics record for dashboard display
-        const data = await statisticsService.getStatistics(1, 1);
-        if (data.statistics && data.statistics.length > 0) {
-          setStatistics(data.statistics[0]);
+        // Fetch latest single record for the stat boxes
+        const latest = await statisticsService.getStatistics(1, 1);
+        if (latest.statistics && latest.statistics.length > 0) {
+          setStatistics(latest.statistics[0]);
         }
       } catch (err) {
-        console.error('Error fetching statistics:', err);
+        console.error('Error fetching latest statistics:', err);
+      }
+
+      try {
+        // Fetch all records for the duration trend line chart
+        const all = await statisticsService.getStatistics(1, 100);
+        if (all.statistics && all.statistics.length > 0) {
+          // Reverse so oldest → newest on x-axis
+          const trend = [...all.statistics].reverse().map((s) => ({
+            name: s.stat_date || '',
+            'Duration (min)': s.average_session_duration != null
+              ? parseFloat(s.average_session_duration.toFixed(2))
+              : 0,
+          }));
+          setDurationTrend(trend);
+        }
+      } catch (err) {
+        console.error('Error fetching trend statistics:', err);
       }
     };
 
@@ -612,12 +630,7 @@ export default function AdminInterface() {
                 fontSize: '16px'
               }}>Session Duration Metrics</h4>
               <ResponsiveContainer width="100%" height={150}>
-                <LineChart data={[
-                  {
-                    name: 'Avg Duration',
-                    'Duration (min)': statistics?.average_session_duration?.toFixed(2) || 0,
-                  }
-                ]}>
+                <LineChart data={durationTrend}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                   <XAxis dataKey="name" stroke="#cacacaff" />
                   <YAxis stroke="#cacacaff" />
