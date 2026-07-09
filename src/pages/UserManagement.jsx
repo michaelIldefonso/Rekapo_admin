@@ -1,6 +1,4 @@
-// User management interface with Poolrooms theme and comprehensive user controls
-// Features user CRUD operations, role management, and atmospheric poolrooms environment
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -40,12 +38,7 @@ import {
 } from '@mui/icons-material';
 import userService from '../services/userService';
 import { useAuth } from '../hooks/useAuth';
-// Poolrooms theme assets for calming blue atmosphere
-import backgroundImage from '../assets/images/poolrooms1.jpg';
-import backgroundAudio from '../assets/audio/daisy bell.mp3';
-// Poolrooms themed components for immersive user management
-import Poolrooms from '../components/AdminFeatures/Poolrooms';
-import PoolRoomEntities from '../components/AdminFeatures/PoolRoomEntities';
+
 
 export default function UserManagement() {
   const { logout } = useAuth();
@@ -60,9 +53,6 @@ export default function UserManagement() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const audioRef = useRef(null);
-  const [showPoolroomsPopup, setShowPoolroomsPopup] = useState(false);
-  const [showPoolRoomEntitiesPopup, setShowPoolRoomEntitiesPopup] = useState(false);
   const [expandedUserId, setExpandedUserId] = useState(null);
   const [userAnalytics, setUserAnalytics] = useState({});
   const [loadingAnalytics, setLoadingAnalytics] = useState({});
@@ -82,32 +72,6 @@ export default function UserManagement() {
     }
   };
 
-  // Auto-play background music
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 1; // Set volume to 100%
-      audioRef.current.play().catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
-    }
-
-    // Add click handler to play audio on first user interaction
-    const handleFirstClick = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      // Remove listener after first click
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, []);
   
   // Dialog states
   const [disableDialog, setDisableDialog] = useState({ open: false, user: null, reason: '' });
@@ -231,7 +195,7 @@ export default function UserManagement() {
       <Box sx={{ 
         minHeight: '100vh', 
         padding: 3,
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundColor: '#111827',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -248,75 +212,8 @@ export default function UserManagement() {
         zIndex: 0
       }}></Box>
 
-      {/* Background Audio */}
-      <audio ref={audioRef} loop autoPlay>
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
 
-      {/* Poolrooms Button - Fixed Upper Right */}
-      <button 
-        onClick={() => setShowPoolroomsPopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '1px solid rgba(255, 255, 255, 0.2)', 
-          background: 'rgba(0, 0, 0, 0.6)', 
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(0, 0, 0, 0.6)';
-        }}
-      >
-        Poolrooms
-      </button>
 
-      {/* Pool Room Entities Button - Fixed Upper Left */}
-      <button 
-        onClick={() => setShowPoolRoomEntitiesPopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          left: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '1px solid rgba(255, 255, 255, 0.2)', 
-          background: 'rgba(0, 0, 0, 0.6)', 
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(0, 0, 0, 0.6)';
-        }}
-      >
-        Pool Room Entities
-      </button>
 
       {/* Header with Navigation */}
       <Box sx={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1, marginBottom: 3 }}>
@@ -1162,18 +1059,7 @@ export default function UserManagement() {
         </Alert>
       </Snackbar>
 
-      {/* Click Prompt at bottom */}
-      {/* Poolrooms Popup */}
-      <Poolrooms
-        isOpen={showPoolroomsPopup}
-        onClose={() => setShowPoolroomsPopup(false)}
-      />
 
-      {/* Pool Room Entities Popup */}
-      <PoolRoomEntities
-        isOpen={showPoolRoomEntitiesPopup}
-        onClose={() => setShowPoolRoomEntitiesPopup(false)}
-      />
       </Box>
     </>
   );

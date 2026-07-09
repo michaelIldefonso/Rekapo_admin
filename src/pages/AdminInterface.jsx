@@ -1,50 +1,21 @@
-// Main admin dashboard with Level Fun theme and system overview
+// Main admin dashboard with system overview
 // Features real-time statistics, themed atmosphere, and navigation hub
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { statisticsService } from '../services/statisticsService';
-// Level Fun theme assets for cheerful admin experience
-import backgroundImage from '../assets/images/lvl fun!.jpg';
-import backgroundAudio from '../assets/audio/Escape The Backrooms OST - Fun (You Day!) (Filtered Version).mp3';
-// Level Fun themed components for immersive dashboard
-import LevelFun from '../components/AdminFeatures/LevelFun';
-import PartyEntities from '../components/AdminFeatures/PartyEntities';
+
 // Recharts library for comprehensive data visualization
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function AdminInterface() {
   const { logout } = useAuth();
-  const audioRef = useRef(null);
+  
   // State for displaying latest system statistics on dashboard
   const [statistics, setStatistics] = useState(null);
   const [durationTrend, setDurationTrend] = useState([]);
 
-  // Auto-play Level Fun background music for cheerful admin atmosphere
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Balanced volume for background ambience
-      audioRef.current.play().catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
-    }
-
-    // Browser auto-play policy fallback
-    const handleFirstClick = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, []);
+  
 
   // Fetch system statistics for dashboard overview and line chart
   useEffect(() => {
@@ -143,10 +114,7 @@ export default function AdminInterface() {
     <div style={{ 
       minHeight: '100vh', 
       padding: '24px',
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
+      backgroundColor: '#111827',
       position: 'relative'
     }}>
       {/* Dark overlay for better readability */}
@@ -160,17 +128,9 @@ export default function AdminInterface() {
         zIndex: 0
       }}></div>
 
-      {/* Background Audio */}
-      <audio ref={audioRef} loop autoPlay>
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      
 
-      {/* Level Fun Component */}
-      <LevelFun />
-
-      {/* Party Entities Component */}
-      <PartyEntities />
+      
 
       <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div style={headerStyles}>

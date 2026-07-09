@@ -1,24 +1,15 @@
-// Admin logging interface with Level 7232003 (The Void) theme
+// Admin logging interface with comprehensive log monitoring
 // Features comprehensive log monitoring, error tracking, and mysterious void atmosphere
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { logsService } from '../services/logsService';
 import useAuth from '../hooks/useAuth';
-// Level 7232003 theme assets for mysterious void monitoring environment
-import backgroundImage from '../assets/images/level 7232003.jpg';
-import backgroundAudio from '../assets/audio/the void.mp3';
-// Interactive calculation popup for complex admin operations
 import CalculationPopup from '../components/popups/CalculationPopup';
-// Level 7232003 themed components for void atmosphere and entity monitoring
-import Lvl807 from '../components/AdminFeatures/lvl807';
-import FlytrapHumanoid from '../components/AdminFeatures/FlytrapHumanoid';
-import Lvl7232003Entities from '../components/AdminFeatures/lvl7232003entities';
-import AstralBrineLore from '../components/AdminFeatures/AstralBrineLore';
 import '../index.css';
 
 export default function AdminLogs() {
   const { logout } = useAuth();
-  const audioRef = useRef(null);
+
   // Comprehensive logging state management
   const [stats, setStats] = useState(null);
   const [recentErrors, setRecentErrors] = useState(null);
@@ -36,56 +27,12 @@ export default function AdminLogs() {
   const [searchMode, setSearchMode] = useState(false);
   // UI feedback and interactive elements
   const [popup, setPopup] = useState({ isOpen: false, message: '', type: 'success' });
-  const [showLorePopup, setShowLorePopup] = useState(false);
-  const [showFlytrapPopup, setShowFlytrapPopup] = useState(false);
   const [showTopErrorsPopup, setShowTopErrorsPopup] = useState(false);
   const [showTopUsersPopup, setShowTopUsersPopup] = useState(false);
-  const [showEntitiesPopup, setShowEntitiesPopup] = useState(false);
-  const [showAstralBrinePopup, setShowAstralBrinePopup] = useState(false);
   const [topErrors, setTopErrors] = useState([]);
   const [topErrorUsers, setTopErrorUsers] = useState([]);
 
-  // Auto-play background music
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
 
-    // Force volume to always be 0.3
-    const forceVolume = () => {
-      if (audio.volume !== 0.3) {
-        audio.volume = 0.3;
-      }
-    };
-
-    // Set initial volume
-    audio.volume = 0.3;
-
-    // Add listener to prevent volume from changing
-    audio.addEventListener('volumechange', forceVolume);
-
-    // Play audio
-    audio.play().catch(err => {
-      console.log('Auto-play prevented:', err);
-    });
-
-    // Click handler fallback
-    const handleFirstClick = () => {
-      if (audio && audio.paused) {
-        audio.volume = 0.3;
-        audio.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      audio.removeEventListener('volumechange', forceVolume);
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, [loading]);
 
   const fetchStats = async () => {
     try {
@@ -297,10 +244,7 @@ export default function AdminLogs() {
       <div style={{ 
         minHeight: '100vh', 
         padding: '24px',
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
@@ -335,10 +279,7 @@ export default function AdminLogs() {
     <div style={{ 
       minHeight: '100vh', 
       padding: '24px',
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
+      backgroundColor: '#111827',
       position: 'relative',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
@@ -353,83 +294,13 @@ export default function AdminLogs() {
         zIndex: 0
       }}></div>
 
-      {/* Background music */}
-      <audio ref={audioRef} loop>
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
 
-      {/* Easter eggs */}
-      <Lvl807 onActivate={() => setShowLorePopup(true)} />
-      <FlytrapHumanoid onActivate={() => setShowFlytrapPopup(true)} />
 
-      {/* Entities Button - Upper Left */}
-      <button 
-        onClick={() => setShowEntitiesPopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          left: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '1px solid rgba(168, 85, 247, 0.4)', 
-          background: 'rgba(0, 0, 0, 0.4)', 
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          cursor: 'pointer',
-          color: '#c084fc',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(0, 0, 0, 0.6)';
-          e.target.style.borderColor = 'rgba(168, 85, 247, 0.6)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(0, 0, 0, 0.4)';
-          e.target.style.borderColor = 'rgba(168, 85, 247, 0.4)';
-        }}
-      >
-        ✦ Entity
-      </button>
 
-      {/* Level 7232003 Button - Upper Right */}
-      <button 
-        onClick={() => setShowAstralBrinePopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '1px solid rgba(168, 85, 247, 0.4)', 
-          background: 'rgba(0, 0, 0, 0.4)', 
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          cursor: 'pointer',
-          color: '#c084fc',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(0, 0, 0, 0.6)';
-          e.target.style.borderColor = 'rgba(168, 85, 247, 0.6)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(0, 0, 0, 0.4)';
-          e.target.style.borderColor = 'rgba(168, 85, 247, 0.4)';
-        }}
-      >
-        ✦ Level 7,232,003
-      </button>
+
+
+
+
 
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 1, maxWidth: '1400px', margin: '0 auto' }}>
@@ -1443,134 +1314,13 @@ export default function AdminLogs() {
         </div>
       )}
 
-      {showLorePopup && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            padding: '40px'
-          }}
-          onClick={() => setShowLorePopup(false)}
-        >
-          <div
-            style={{
-              maxWidth: '600px',
-              backgroundColor: 'rgba(88, 28, 135, 0.95)',
-              padding: '30px',
-              borderRadius: '20px',
-              border: '2px solid rgba(168, 85, 247, 0.3)',
-              color: '#ffffff',
-              fontFamily: 'Verdana, sans-serif',
-              lineHeight: 1.6
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 style={{ marginTop: 0, color: '#e9d5ff' }}>Level 807 - "Blooms Creek"</h2>
-            <p>
-              A serene yet eerie forest realm where bioluminescent flora illuminates the eternal twilight. 
-              The air is thick with spores that induce vivid hallucinations after prolonged exposure.
-            </p>
-            <p style={{ fontStyle: 'italic', color: '#cacacaff' }}>
-              "The flowers here whisper secrets of those who came before. Do not listen too closely."
-            </p>
-            <button
-              onClick={() => setShowLorePopup(false)}
-              style={{
-                marginTop: '20px',
-                padding: '10px 20px',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'rgba(100, 120, 180, 0.8)',
-                color: '#ffffff',
-                cursor: 'pointer',
-                fontFamily: 'Verdana, sans-serif'
-              }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
 
-      {showFlytrapPopup && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            padding: '40px'
-          }}
-          onClick={() => setShowFlytrapPopup(false)}
-        >
-          <div
-            style={{
-              maxWidth: '600px',
-              backgroundColor: 'rgba(40, 20, 20, 0.95)',
-              padding: '30px',
-              borderRadius: '20px',
-              border: '2px solid rgba(150, 50, 50, 0.5)',
-              color: '#ffffff',
-              fontFamily: 'Verdana, sans-serif',
-              lineHeight: 1.6
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 style={{ marginTop: 0, color: '#FF6B6B' }}>Entity: Flytrap Humanoid</h2>
-            <p>
-              <strong>Class:</strong> Hostile
-            </p>
-            <p>
-              A carnivorous entity resembling a grotesque fusion of human and venus flytrap. 
-              Attracted to movement and heat signatures. Emits a sweet, nauseating scent to lure prey.
-            </p>
-            <p style={{ color: '#FFD700' }}>
-              <strong>Survival Tip:</strong> Remain still if spotted. They hunt primarily by motion detection.
-            </p>
-            <button
-              onClick={() => setShowFlytrapPopup(false)}
-              style={{
-                marginTop: '20px',
-                padding: '10px 20px',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'rgba(180, 50, 50, 0.8)',
-                color: '#ffffff',
-                cursor: 'pointer',
-                fontFamily: 'Verdana, sans-serif'
-              }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
 
-      {/* Entities Lore Popup */}
-      <Lvl7232003Entities 
-        isOpen={showEntitiesPopup}
-        onClose={() => setShowEntitiesPopup(false)}
-      />
 
-      {/* Astral Brine Lore Popup */}
-      <AstralBrineLore 
-        isOpen={showAstralBrinePopup}
-        onClose={() => setShowAstralBrinePopup(false)}
-      />
+
+
+
+
     </div>
   );
 }

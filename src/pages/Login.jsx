@@ -1,16 +1,10 @@
-// Login page with immersive Backrooms theme and OAuth2 integration
-// Features atmospheric audio, themed visuals, and Google authentication
-import { useEffect, useState, useRef } from 'react';
+// Login page with OAuth2 integration
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Card, CircularProgress, Typography, Alert } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 import authService from '../services/authService';
-// Backrooms Level 0 theme assets for immersive admin experience
-import backgroundImage from '../assets/images/lvl0.jpg';
-import backgroundAudio from '../assets/audio/Fallen Down - Toby Fox.mp3';
-// Themed components for Backrooms atmosphere
-import TheBackrooms from '../components/AdminFeatures/TheBackrooms';
-import MEG from '../components/AdminFeatures/MEG';
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,35 +12,9 @@ export default function Login() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // Audio reference for atmospheric background music
-  const audioRef = useRef(null);
+  
 
-  // Auto-play background music with volume control and browser compatibility
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Set volume to 30% for non-intrusive experience
-      audioRef.current.play().catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
-    }
-
-    // Fallback: play audio on first user interaction (browser auto-play policy)
-    const handleFirstClick = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      // Remove listener after first successful play
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, []);
+  
 
   // Handle authentication errors from URL parameters (OAuth2 callback)
   useEffect(() => {
@@ -90,10 +58,7 @@ export default function Login() {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative',
         '&::before': {
           content: '""',
@@ -106,24 +71,7 @@ export default function Login() {
         },
       }}
     >
-      {/* The Backrooms Component */}
-      <TheBackrooms />
-
-      {/* M.E.G Component */}
-      <MEG />
-
-      {/* Background Audio */}
-      <audio 
-        ref={audioRef} 
-        loop 
-        autoPlay 
-        onLoadedMetadata={(e) => {
-          e.target.volume = 0.3;
-        }}
-      >
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      
 
       <Card sx={{ 
         padding: 4, 
@@ -137,7 +85,7 @@ export default function Login() {
         WebkitBackdropFilter: 'blur(8px)',
       }}>
         <Typography variant="h4" component="h1" sx={{ marginBottom: 2, textAlign: 'center', color: '#ffffffff' }}>
-          M.E.G Admin
+          Rekapo Admin
         </Typography>
 
         {error && (
@@ -166,7 +114,7 @@ export default function Login() {
           variant="body2"
           sx={{ marginTop: 2, textAlign: 'center', color: '#ffffffff', fontFamily: 'Verdana, sans-serif' }}
         >
-          Only authorized M.E.G personel can access this admin panel.
+          Only authorized personnel can access this admin panel.
         </Typography>
       </Card>
     </Box>

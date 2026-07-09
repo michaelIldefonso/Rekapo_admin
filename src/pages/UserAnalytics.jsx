@@ -1,6 +1,6 @@
 // User analytics dashboard with comprehensive behavioral analysis
 // Features user behavior tracking, engagement metrics, and advanced filtering
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -33,11 +33,7 @@ import {
 import { Refresh, Block, CheckCircle, ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import userService from '../services/userService';
 import { useAuth } from '../hooks/useAuth';
-import backgroundImage from '../assets/images/level heaven.jpg';
-import backgroundAudio from '../assets/audio/level heaven.mp3';
-import Poolrooms from '../components/AdminFeatures/Poolrooms';
-import BeastOfLevelHeaven from '../components/AdminFeatures/BeastOfLevelHeaven';
-import LevelHeaven from '../components/AdminFeatures/LevelHeaven';
+
 
 export default function UserAnalytics() {
   const { logout } = useAuth();
@@ -53,9 +49,6 @@ export default function UserAnalytics() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const audioRef = useRef(null);
-  const [showLevelHeavenPopup, setShowLevelHeavenPopup] = useState(false);
-  const [showBeastOfLevelHeavenPopup, setShowBeastOfLevelHeavenPopup] = useState(false);
   const [userAnalytics, setUserAnalytics] = useState({});
 
   // Dialog states
@@ -76,31 +69,6 @@ export default function UserAnalytics() {
       window.location.assign('/login');
     }
   };
-
-  // Auto-play background music
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3;
-      audioRef.current.play().catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
-    }
-
-    const handleFirstClick = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, []);
 
   // Fetch users with analytics
   const fetchUsersAnalytics = useCallback(async () => {
@@ -319,10 +287,7 @@ export default function UserAnalytics() {
       <Box sx={{ 
         minHeight: '100vh', 
         padding: 3,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative'
       }}>
         <Box sx={{
@@ -334,64 +299,6 @@ export default function UserAnalytics() {
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
           zIndex: 0
         }}></Box>
-
-        <audio ref={audioRef} loop autoPlay>
-          <source src={backgroundAudio} type="audio/mpeg" />
-        </audio>
-
-        <button 
-          onClick={() => setShowLevelHeavenPopup(true)}
-          style={{ 
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            zIndex: 1000,
-            padding: '10px 20px', 
-            borderRadius: '20px', 
-            border: '1px solid rgba(255, 255, 255, 0.2)', 
-            background: 'rgba(0, 0, 0, 0.6)', 
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            cursor: 'pointer',
-            color: '#ffffff',
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: 500,
-            fontSize: '14px',
-            textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
-          onMouseLeave={(e) => e.target.style.background = 'rgba(0, 0, 0, 0.6)'}
-        >
-          Level Heaven?
-        </button>
-
-        <button 
-          onClick={() => setShowBeastOfLevelHeavenPopup(true)}
-          style={{ 
-            position: 'fixed',
-            top: '20px',
-            left: '20px',
-            zIndex: 1000,
-            padding: '10px 20px', 
-            borderRadius: '20px', 
-            border: '1px solid rgba(255, 255, 255, 0.2)', 
-            background: 'rgba(0, 0, 0, 0.6)', 
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            cursor: 'pointer',
-            color: '#ffffff',
-            fontFamily: 'Verdana, sans-serif',
-            fontWeight: 500,
-            fontSize: '14px',
-            textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
-          onMouseLeave={(e) => e.target.style.background = 'rgba(0, 0, 0, 0.6)'}
-        >
-          Level Heaven? Entities
-        </button>
 
         <Box sx={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1, marginBottom: 3 }}>
           <div style={{
@@ -1469,14 +1376,6 @@ export default function UserAnalytics() {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {showLevelHeavenPopup && (
-          <LevelHeaven onClose={() => setShowLevelHeavenPopup(false)} />
-        )}
-
-        {showBeastOfLevelHeavenPopup && (
-          <BeastOfLevelHeaven onClose={() => setShowBeastOfLevelHeavenPopup(false)} />
-        )}
       </Box>
     </>
   );
