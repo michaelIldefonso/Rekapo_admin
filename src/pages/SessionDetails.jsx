@@ -1,6 +1,6 @@
-// Detailed session view with Level "You Should Not Be Here" theme
-// Features comprehensive session data, user actions log, and forbidden access atmosphere
-import { useState, useEffect, useCallback, useRef } from 'react';
+// Detailed session view
+// Features comprehensive session data and user actions log
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   Box,
@@ -22,12 +22,6 @@ import {
 import { ArrowBack, ExpandMore, Block } from '@mui/icons-material';
 import { sessionService } from '../services/sessionService';
 import { useAuth } from '../hooks/useAuth';
-// "You Should Not Be Here" theme assets for dangerous detailed view
-import backgroundImage from '../assets/images/lvl youshouldnotbehere.jpg';
-import backgroundAudio from '../assets/audio/youshouldnotbehere.mp3';
-// Forbidden level themed components for restricted session access atmosphere
-import LevelYouShouldNotBeHere from '../components/AdminFeatures/LevelYouShouldNotBeHere';
-import Entities from '../components/AdminFeatures/Entities';
 
 export default function SessionDetails() {
   // Extract session ID from URL parameters for detailed view
@@ -38,33 +32,7 @@ export default function SessionDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showConsentDialog, setShowConsentDialog] = useState(false);
-  const [showYouShouldNotBeHerePopup, setShowYouShouldNotBeHerePopup] = useState(false);
-  const [showEntitiesPopup, setShowEntitiesPopup] = useState(false);
-  const audioRef = useRef(null);
 
-  // Auto-play background music
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Set volume to 30%
-      audioRef.current.play().catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
-    }
-
-    // Add click handler to play audio on first user interaction
-    const handleFirstClick = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      // Remove listener after first click
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-    return () => document.removeEventListener('click', handleFirstClick);
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -114,10 +82,7 @@ export default function SessionDetails() {
       <Box sx={{ 
         minHeight: '100vh', 
         padding: 3,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
@@ -142,10 +107,7 @@ export default function SessionDetails() {
       <Box sx={{ 
         minHeight: '100vh', 
         padding: 3,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative'
       }}>
         <Box sx={{
@@ -216,10 +178,7 @@ export default function SessionDetails() {
       <Box sx={{ 
         minHeight: '100vh', 
         padding: 3,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative'
       }}>
       <Box sx={{
@@ -231,80 +190,6 @@ export default function SessionDetails() {
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         zIndex: 0
       }}></Box>
-
-      {/* Entity Button */}
-      <button 
-        onClick={() => setShowEntitiesPopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          left: '20px',
-          zIndex: 10000,
-          padding: '12px 24px', 
-          borderRadius: '25px', 
-          border: '2px solid rgba(255, 255, 255, 0.4)', 
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6))', 
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 600,
-          fontSize: '14px',
-          textShadow: '0 2px 4px rgba(0,0,0,0.6)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, rgba(30, 100, 200, 0.9), rgba(50, 150, 255, 0.8))';
-          e.target.style.transform = 'translateY(-3px)';
-          e.target.style.boxShadow = '0 6px 25px rgba(0, 0, 0, 0.4)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6))';
-          e.target.style.transform = 'translateY(0)';
-          e.target.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
-        }}
-      >
-        ENTITY
-      </button>
-
-      {/* Level YouShouldNotBeHere Lore Button */}
-      <button 
-        onClick={() => setShowYouShouldNotBeHerePopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 10000,
-          padding: '12px 24px', 
-          borderRadius: '25px', 
-          border: '2px solid rgba(255, 255, 255, 0.4)', 
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6))', 
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 600,
-          fontSize: '14px',
-          textShadow: '0 2px 4px rgba(0,0,0,0.6)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, rgba(30, 100, 200, 0.9), rgba(50, 150, 255, 0.8))';
-          e.target.style.transform = 'translateY(-3px)';
-          e.target.style.boxShadow = '0 6px 25px rgba(0, 0, 0, 0.4)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6))';
-          e.target.style.transform = 'translateY(0)';
-          e.target.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
-        }}
-      >
-        LORE
-      </button>
 
       {/* Header */}
       <Box sx={{ maxWidth: 1400, margin: '0 auto', marginBottom: 3, position: 'relative', zIndex: 1 }}>
@@ -758,23 +643,6 @@ export default function SessionDetails() {
         </DialogActions>
       </Dialog>
 
-      {/* Level YouShouldNotBeHere Lore Popup */}
-      <LevelYouShouldNotBeHere
-        isOpen={showYouShouldNotBeHerePopup}
-        onClose={() => setShowYouShouldNotBeHerePopup(false)}
-      />
-
-      {/* Entities Popup */}
-      <Entities
-        isOpen={showEntitiesPopup}
-        onClose={() => setShowEntitiesPopup(false)}
-      />
-
-      {/* Background Audio */}
-      <audio ref={audioRef} loop autoPlay>
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
     </Box>
     </>
   );

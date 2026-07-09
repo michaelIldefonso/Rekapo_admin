@@ -1,6 +1,6 @@
-// Session management interface with Level 94 theme and session monitoring
+// Session management interface with session monitoring
 // Features session filtering, status tracking, and atmospheric motion-sensitive environment
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -22,12 +22,7 @@ import {
 } from '@mui/material';
 import { sessionService } from '../services/sessionService';
 import useAuth from '../hooks/useAuth';
-// Level 94 (Motion) theme assets for dynamic session monitoring atmosphere
-import backgroundImage from '../assets/images/lvl94.png';
-import backgroundAudio from '../assets/audio/King\'s Curfew.mp3';
-// Motion-themed components for Level 94 atmosphere
-import Level94 from '../components/AdminFeatures/Level94';
-import AnimatedEntities from '../components/AdminFeatures/AnimatedEntities';
+
 
 export default function SessionManagement() {
   const navigate = useNavigate();
@@ -44,9 +39,6 @@ export default function SessionManagement() {
   const [totalSessions, setTotalSessions] = useState(0);
   const [selectedSession, setSelectedSession] = useState(null);
   const [confirmMsg, setConfirmMsg] = useState('');
-  const audioRef = useRef(null);
-  const [showLevel94Popup, setShowLevel94Popup] = useState(false);
-  const [showAnimatedEntitiesPopup, setShowAnimatedEntitiesPopup] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -63,31 +55,6 @@ export default function SessionManagement() {
     }
   };
   const pageSize = 10;
-
-  // Auto-play background music
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3;
-      audioRef.current.play().catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
-    }
-
-    const handleFirstClick = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, []);
 
   // Fetch sessions
   useEffect(() => {
@@ -189,10 +156,7 @@ export default function SessionManagement() {
       <Box sx={{ 
         minHeight: '100vh', 
         padding: 3,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative'
       }}>
       {/* Dark overlay for better readability */}
@@ -206,87 +170,8 @@ export default function SessionManagement() {
         zIndex: 0
       }}></Box>
 
-      {/* Background Audio */}
-      <audio ref={audioRef} loop autoPlay>
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
 
-      {/* Level 94 Button - Fixed Upper Right */}
-      <button 
-        onClick={() => setShowLevel94Popup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '2px solid rgba(255, 255, 255, 0.2)', 
-          background: 'rgba(255, 255, 255, 0.1)', 
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-          e.target.style.transform = 'translateY(-3px)';
-          e.target.style.boxShadow = '0 6px 20px rgba(255,255,255,0.3)';
-          e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-          e.target.style.transform = 'translateY(0)';
-          e.target.style.boxShadow = 'none';
-          e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-        }}
-      >
-        Level 94
-      </button>
 
-      {/* Animated Entities Button - Fixed Upper Left */}
-      <button 
-        onClick={() => setShowAnimatedEntitiesPopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          left: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '2px solid rgba(255, 255, 255, 0.2)', 
-          background: 'rgba(255, 255, 255, 0.1)', 
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-          e.target.style.transform = 'translateY(-3px)';
-          e.target.style.boxShadow = '0 6px 20px rgba(255,255,255,0.3)';
-          e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-          e.target.style.transform = 'translateY(0)';
-          e.target.style.boxShadow = 'none';
-          e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-        }}
-      >
-        Entities
-      </button>
 
       {/* Header with Navigation */}
       <Box sx={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1, marginBottom: 3 }}>
@@ -903,17 +788,7 @@ export default function SessionManagement() {
         )}
       </Card>
 
-      {/* Level 94 Popup */}
-      <Level94
-        isOpen={showLevel94Popup}
-        onClose={() => setShowLevel94Popup(false)}
-      />
 
-      {/* Animated Entities Popup */}
-      <AnimatedEntities
-        isOpen={showAnimatedEntitiesPopup}
-        onClose={() => setShowAnimatedEntitiesPopup(false)}
-      />
       </Box>
     </>
   );

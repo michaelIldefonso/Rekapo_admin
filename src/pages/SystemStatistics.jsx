@@ -1,22 +1,14 @@
-// System statistics dashboard with Level 807 (Atrium) theme
-// Features statistical analysis, data visualization, and dangerous atrium atmosphere
-import { useState, useEffect, useRef } from 'react';
+// System statistics dashboard
+// Features statistical analysis and data visualization
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { statisticsService } from '../services/statisticsService';
 import useAuth from '../hooks/useAuth';
-// Level 807 (The Atrium) theme assets for dangerous monitoring environment
-import backgroundImage from '../assets/images/lvl807.jpg';
-import backgroundAudio from '../assets/audio/lvl807.mp3';
-// Interactive calculation popup for complex statistical operations
 import CalculationPopup from '../components/popups/CalculationPopup';
-// Level 807 themed components for atrium atmosphere and entity monitoring
-import Lvl807 from '../components/AdminFeatures/lvl807';
-import FlytrapHumanoid from '../components/AdminFeatures/FlytrapHumanoid';
 import '../index.css';
 
 export default function SystemStatistics() {
   const { logout } = useAuth();
-  const audioRef = useRef(null);
   // Core statistics data and pagination state
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,51 +16,10 @@ export default function SystemStatistics() {
   const [page, setPage] = useState(1);
   // Interactive UI elements and popup controls
   const [popup, setPopup] = useState({ isOpen: false, message: '', type: 'success' });
-  const [showLorePopup, setShowLorePopup] = useState(false);
-  const [showFlytrapPopup, setShowFlytrapPopup] = useState(false);
+  
   const pageSize = 10;
 
-  // Auto-play Level 807 atmospheric audio with forced volume control
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    // Enforce consistent volume level for atmospheric immersion
-    const forceVolume = () => {
-      if (audio.volume !== 0.3) {
-        audio.volume = 0.3;
-      }
-    };
-
-    // Set initial volume
-    audio.volume = 0.3;
-
-    // Add listener to prevent volume from changing
-    audio.addEventListener('volumechange', forceVolume);
-
-    // Play audio
-    audio.play().catch(err => {
-      console.log('Auto-play prevented:', err);
-    });
-
-    // Click handler fallback
-    const handleFirstClick = () => {
-      if (audio && audio.paused) {
-        audio.volume = 0.3;
-        audio.play().catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      }
-      document.removeEventListener('click', handleFirstClick);
-    };
-
-    document.addEventListener('click', handleFirstClick);
-
-    return () => {
-      audio.removeEventListener('volumechange', forceVolume);
-      document.removeEventListener('click', handleFirstClick);
-    };
-  }, [loading]);
+  
 
   const fetchStatistics = async () => {
     try {
@@ -154,24 +105,12 @@ export default function SystemStatistics() {
       <div style={{ 
         minHeight: '100vh', 
         padding: '24px',
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: 0
-        }}></div>
         <div style={{ 
           padding: '20px', 
           textAlign: 'center',
@@ -205,92 +144,13 @@ export default function SystemStatistics() {
       <div style={{ 
         minHeight: '100vh', 
         padding: '24px',
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#111827',
         position: 'relative'
       }}>
-      {/* Dark overlay */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        zIndex: 0
-      }}></div>
 
-      {/* Background Audio */}
-      <audio ref={audioRef} loop>
-        <source src={backgroundAudio} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      
 
-      {/* Lore Button - Fixed Upper Right */}
-      <button 
-        onClick={() => setShowLorePopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '1px solid rgba(120, 160, 100, 0.4)', 
-          background: 'rgba(60, 80, 60, 0.5)', 
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(60, 80, 60, 0.8)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(60, 80, 60, 0.5)';
-        }}
-      >
-        Level 807 Lore
-      </button>
-
-      {/* Flytrap Humanoid Button - Fixed Upper Left */}
-      <button 
-        onClick={() => setShowFlytrapPopup(true)}
-        style={{ 
-          position: 'fixed',
-          top: '20px',
-          left: '20px',
-          zIndex: 1000,
-          padding: '10px 20px', 
-          borderRadius: '20px', 
-          border: '1px solid rgba(120, 160, 100, 0.4)', 
-          background: 'rgba(60, 80, 60, 0.5)', 
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          cursor: 'pointer',
-          color: '#ffffff',
-          fontFamily: 'Verdana, sans-serif',
-          fontWeight: 500,
-          fontSize: '14px',
-          textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(60, 80, 60, 0.8)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(60, 80, 60, 0.5)';
-        }}
-      >
-        Flytrap Humanoid
-      </button>
+      
 
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Navigation Header */}
@@ -815,17 +675,7 @@ export default function SystemStatistics() {
         onClose={() => setPopup({ ...popup, isOpen: false })}
       />
 
-      {/* Lore Popup */}
-      <Lvl807
-        isOpen={showLorePopup}
-        onClose={() => setShowLorePopup(false)}
-      />
-
-      {/* Flytrap Humanoid Popup */}
-      <FlytrapHumanoid
-        isOpen={showFlytrapPopup}
-        onClose={() => setShowFlytrapPopup(false)}
-      />
+      
       </div>
     </>
   );
